@@ -1,0 +1,14 @@
+{
+  "name": "ai-workflow-orchestrator-docs",
+  "version": "1.0.0",
+  "description": "VitePress Documentation for AI Workflow Orchestrator",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "vitepress": "^1.0.0",
+    "vue": "^3.4.0"
+  }
+}

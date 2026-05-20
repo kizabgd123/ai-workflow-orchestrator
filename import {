@@ -1,0 +1,40 @@
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({});
+
+async function main() {
+
+const transcript = await ai.models.generateContent({
+   model: "gemini-3-flash-preview",
+   contents: "Generate a short transcript around 100 words that reads like it was clipped from a podcast by excited herpetologists. The hosts names are Dr. Anya and Liam.",
+   })
+
+const response = await ai.models.generateContent({
+   model: "gemini-3.1-flash-tts-preview",
+   contents: transcript,
+   config: {
+      responseModalities: ['AUDIO'],
+      speechConfig: {
+         multiSpeakerVoiceConfig: {
+            speakerVoiceConfigs: [
+                   {
+                     speaker: "Dr. Anya",
+                     voiceConfig: {
+                        prebuiltVoiceConfig: {voiceName: "Kore"},
+                     }
+                  },
+                  {
+                     speaker: "Liam",
+                     voiceConfig: {
+                        prebuiltVoiceConfig: {voiceName: "Puck"},
+                    }
+                  }
+                ]
+              }
+            }
+      }
+  });
+}
+// ..JavaScript code for exporting .wav file for output audio
+
+await main();

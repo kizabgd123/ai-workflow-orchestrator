@@ -1,0 +1,424 @@
+{
+  "project_name": "AIWorkflowOrchestrator",
+  "source_url": "",
+  "extracted_at": "2026-05-18 17:03:21",
+  "brand_voice": "technical",
+  "visual_density": "medium",
+  "colors": [
+    {
+      "hex": "#ffffff",
+      "role": "background",
+      "frequency": 13,
+      "contexts": [
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 1.0,
+      "contrast_black": 21.0,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#6366f1",
+      "role": "primary",
+      "frequency": 8,
+      "contexts": [
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 4.47,
+      "contrast_black": 4.7,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#10b981",
+      "role": "secondary",
+      "frequency": 8,
+      "contexts": [
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 2.54,
+      "contrast_black": 8.28,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#f43f5e",
+      "role": "accent",
+      "frequency": 7,
+      "contexts": [
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 3.67,
+      "contrast_black": 5.72,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#06b6d4",
+      "role": "cta",
+      "frequency": 6,
+      "contexts": [
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 2.43,
+      "contrast_black": 8.65,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#000000",
+      "role": "text-primary",
+      "frequency": 5,
+      "contexts": [
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 21.0,
+      "contrast_black": 1.0,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    },
+    {
+      "hex": "#8b5cf6",
+      "role": "decorative",
+      "frequency": 3,
+      "contexts": [
+        "style-block",
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 4.23,
+      "contrast_black": 4.96,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#f59e0b",
+      "role": "decorative",
+      "frequency": 2,
+      "contexts": [
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 2.15,
+      "contrast_black": 9.78,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#cbd5e1",
+      "role": "decorative",
+      "frequency": 2,
+      "contexts": [
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 1.48,
+      "contrast_black": 14.14,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#3b82f6",
+      "role": "decorative",
+      "frequency": 2,
+      "contexts": [
+        "style-block",
+        "style-block"
+      ],
+      "contrast_white": 3.68,
+      "contrast_black": 5.71,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#070913",
+      "role": "text-primary",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 19.86,
+      "contrast_black": 1.06,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    },
+    {
+      "hex": "#f8fafc",
+      "role": "background",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 1.05,
+      "contrast_black": 20.07,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#94a3b8",
+      "role": "decorative",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 2.56,
+      "contrast_black": 8.19,
+      "wcag_aa": false,
+      "wcag_aaa": false
+    },
+    {
+      "hex": "#111428",
+      "role": "text-primary",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 18.19,
+      "contrast_black": 1.15,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    },
+    {
+      "hex": "#0f243a",
+      "role": "decorative",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 15.74,
+      "contrast_black": 1.33,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    },
+    {
+      "hex": "#04050b",
+      "role": "text-primary",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 20.35,
+      "contrast_black": 1.03,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    },
+    {
+      "hex": "#111111",
+      "role": "text-primary",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 18.88,
+      "contrast_black": 1.11,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    },
+    {
+      "hex": "#0d1123",
+      "role": "text-primary",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 18.72,
+      "contrast_black": 1.12,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    },
+    {
+      "hex": "#141a34",
+      "role": "decorative",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 17.11,
+      "contrast_black": 1.23,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    },
+    {
+      "hex": "#140a14",
+      "role": "text-primary",
+      "frequency": 1,
+      "contexts": [
+        "style-block"
+      ],
+      "contrast_white": 19.39,
+      "contrast_black": 1.08,
+      "wcag_aa": true,
+      "wcag_aaa": true
+    }
+  ],
+  "typography": [
+    {
+      "font_family": "JetBrains Mono",
+      "role": "body",
+      "weight": "600",
+      "size_px": 12,
+      "line_height": 1.5,
+      "letter_spacing": "normal",
+      "frequency": 7,
+      "source": "system"
+    },
+    {
+      "font_family": "Outfit",
+      "role": "heading",
+      "weight": "600",
+      "size_px": 12,
+      "line_height": 1.5,
+      "letter_spacing": "normal",
+      "frequency": 1,
+      "source": "google-fonts"
+    }
+  ],
+  "spacing": [
+    {
+      "value_px": 15,
+      "css_variable": "--space-md",
+      "frequency": 6,
+      "contexts": []
+    },
+    {
+      "value_px": 8,
+      "css_variable": "--space-sm",
+      "frequency": 5,
+      "contexts": []
+    },
+    {
+      "value_px": 10,
+      "css_variable": "--space-md",
+      "frequency": 5,
+      "contexts": []
+    },
+    {
+      "value_px": 25,
+      "css_variable": "--space-xl",
+      "frequency": 4,
+      "contexts": []
+    },
+    {
+      "value_px": 20,
+      "css_variable": "--space-lg",
+      "frequency": 4,
+      "contexts": []
+    },
+    {
+      "value_px": 12,
+      "css_variable": "--space-md",
+      "frequency": 3,
+      "contexts": []
+    },
+    {
+      "value_px": 4,
+      "css_variable": "--space-xs",
+      "frequency": 2,
+      "contexts": []
+    },
+    {
+      "value_px": 24,
+      "css_variable": "--space-lg",
+      "frequency": 2,
+      "contexts": []
+    },
+    {
+      "value_px": 16,
+      "css_variable": "--space-md",
+      "frequency": 2,
+      "contexts": []
+    },
+    {
+      "value_px": 30,
+      "css_variable": "--space-xl",
+      "frequency": 1,
+      "contexts": []
+    }
+  ],
+  "components": [
+    {
+      "name": "button",
+      "variants": [
+        "primary",
+        "secondary",
+        "ghost"
+      ],
+      "border_radius": "12px",
+      "shadow": "0 8px 32px 0 rgba(0, 0, 0, 0.3)",
+      "padding": "12px 24px",
+      "transition": "all 0.3s ease",
+      "hover_state": "opacity: 0.9; transform: translateY(-1px)",
+      "css_snippet": ".btn-primary {\n  background: #6366f1;\n  color: white;\n  padding: 12px 24px;\n  border-radius: 12px;\n  font-weight: 600;\n  transition: all 0.3s ease;\n  cursor: pointer;\n}"
+    },
+    {
+      "name": "card",
+      "variants": [
+        "default",
+        "elevated",
+        "outlined"
+      ],
+      "border_radius": "12px",
+      "shadow": "0 8px 32px 0 rgba(0, 0, 0, 0.3)",
+      "padding": "24px",
+      "transition": "all 0.3s ease",
+      "hover_state": "box-shadow: 0 10px 15px rgba(0,0,0,0.1); transform: translateY(-2px)",
+      "css_snippet": ".card {\n  background: #ffffff;\n  border-radius: 12px;\n  padding: 24px;\n  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);\n  transition: all 0.3s ease;\n}"
+    },
+    {
+      "name": "input",
+      "variants": [
+        "default",
+        "error",
+        "disabled"
+      ],
+      "border_radius": "12px",
+      "shadow": "",
+      "padding": "12px 16px",
+      "transition": "all 0.3s ease",
+      "hover_state": "",
+      "css_snippet": ".input {\n  padding: 12px 16px;\n  border: 1px solid #E2E8F0;\n  border-radius: 12px;\n  font-size: 16px;\n  transition: border-color 200ms ease;\n}\n.input:focus {\n  border-color: #6366f1;\n  outline: none;\n  box-shadow: 0 0 0 3px #6366f120;\n}"
+    }
+  ],
+  "layout": {
+    "max_width": "1400px",
+    "grid_system": "12-column",
+    "breakpoints": {
+      "mobile": 1024,
+      "tablet": 768,
+      "desktop": 1024,
+      "wide": 1440
+    },
+    "container_padding": "16px",
+    "section_gap": "64px"
+  },
+  "color_temperature": "cool",
+  "design_era": "modern-glass",
+  "ui_style_match": "Glassmorphism",
+  "anti_patterns_detected": [
+    "Too many accent colors (11). Recommend <= 5 for consistency."
+  ]
+}

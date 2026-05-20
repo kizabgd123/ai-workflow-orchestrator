@@ -1,0 +1,28 @@
+{
+  "project": "ai-workflow-orchestrator",
+  "features": [
+    {
+      "name": "system-startup",
+      "patterns": [
+        {"event": "system.startup", "status": "success"},
+        {"event": "security.identity_check", "status": "success"}
+      ]
+    },
+    {
+      "name": "workflow-execution",
+      "patterns": [
+        {"event": "workflow.start"},
+        {"event": "workflow.milestone", "step": 1},
+        {"event": "workflow.classification"},
+        {"event": "debate.consensus", "status": "success"},
+        {"event": "workflow.milestone", "step": 8}
+      ]
+    },
+    {
+      "name": "security-veto",
+      "patterns": [
+        {"event": "debate.consensus", "status": "rejected", "reason": "security_veto"}
+      ]
+    }
+  ]
+}

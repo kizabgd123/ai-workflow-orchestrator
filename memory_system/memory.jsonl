@@ -1,0 +1,2 @@
+{"id": "285f2eaa-f59e-4be8-a275-fc0ba4221e28", "timestamp": "2026-05-18T06:57:54.579394", "type": "analysis", "source_file": null, "source_line": null, "tags": ["bootstrap", "lean"], "content": "Initial setup of Lean Graph Memory Engine", "confidence": 1.0}
+{"id": "f6ad56b8-8a96-4f78-a6b9-e9ddde0f81ee", "timestamp": "2026-05-18T06:57:54.579534", "type": "note", "source_file": null, "source_line": null, "tags": ["design"], "content": "Design principles: No server, No FastAPI", "confidence": 1.0}

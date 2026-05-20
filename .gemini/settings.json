@@ -1,0 +1,53 @@
+{
+  "experimental": {
+    "enableAgents": true,
+    "gemmaModelRouter": {
+      "autoStartServer": true
+    }
+  },
+  "mcpServers": {
+    "gemini-api-docs-mcp": {
+      "type": "http",
+      "url": "https://gemini-api-docs-mcp.dev"
+    }
+  },
+  "hooksConfig": {
+    "disabled": [
+      "bkit-session-init",
+      "bkit-before-model",
+      "bkit-after-model",
+      "bkit-tool-filter",
+      "bkit-pre-write",
+      "bkit-pre-bash",
+      "bkit-post-write",
+      "bkit-post-bash",
+      "bkit-post-skill",
+      "bkit-agent-cleanup",
+      "bkit-context-save",
+      "bkit-cleanup",
+      "maestro-session-start",
+      "maestro-before-agent",
+      "maestro-after-agent",
+      "maestro-session-end",
+      "omg-model-router",
+      "omg-learn-signal-after-agent",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/keyword-detector.mjs\"",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/skill-injector.mjs\"",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/session-start.mjs\"",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/pre-tool-enforcer.mjs\"",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/post-tool-verifier.mjs\"",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/context-guard-stop.mjs\"",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/persistent-mode.cjs\"",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/pre-compact.mjs\"",
+      "node \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/run.cjs\" \"/home/kizabgd/.gemini/extensions/oh-my-openagent/scripts/session-end.mjs\"",
+      "increment-iteration",
+      "reinforce-pickle-persona",
+      "check-limit",
+      "pickle-rick-loop",
+      "i-say"
+    ]
+  },
+  "context": {
+    "loadMemoryFromIncludeDirectories": true
+  }
+}

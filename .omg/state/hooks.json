@@ -1,0 +1,42 @@
+{
+  "profile": "balanced",
+  "settings": {
+    "deterministic_lanes": true,
+    "lifecycle_symmetry": true,
+    "side_effect_hooks_worker": false
+  },
+  "lanes": {
+    "P0-safety": {
+      "fail_mode": "fail-closed",
+      "priority": 0
+    },
+    "P1-quality": {
+      "fail_mode": "fail-open",
+      "priority": 1
+    },
+    "P2-optimization": {
+      "fail_mode": "fail-open",
+      "priority": 2
+    }
+  },
+  "hooks": [
+    {
+      "event": "agent-start",
+      "lane": "P0-safety",
+      "enabled": true,
+      "side_effects": false
+    },
+    {
+      "event": "task-complete",
+      "lane": "P1-quality",
+      "enabled": true,
+      "side_effects": true
+    },
+    {
+      "event": "session-end",
+      "lane": "P2-optimization",
+      "enabled": true,
+      "side_effects": true
+    }
+  ]
+}

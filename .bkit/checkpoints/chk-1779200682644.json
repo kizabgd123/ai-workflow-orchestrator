@@ -1,0 +1,10 @@
+{
+  "id": "chk-1779200682644",
+  "feature": "unknown",
+  "label": "Initial state for rollback skill test",
+  "gitHash": "fa4272cc51b3b94f14adbcd36d8e0314cb7236d3",
+  "gitDiff": "",
+  "createdAt": "2026-05-19T14:24:42.656Z",
+  "pdcaStatus": null,
+  "files": 13
+}

@@ -1,0 +1,33 @@
+# AI Workflow Orchestrator Documentation - NotebookLM Sitemap Index
+# Generated on: 2026-05-18T19:09:50+02:00
+# Target paths for structural AI/LLM context loading:
+
+## 🌏 Srpski (Bosanski / Hrvatski) - Podrazumevani putevi
+- https://ai-workflow-orchestrator.pages.dev/
+- https://ai-workflow-orchestrator.pages.dev/analysis
+- https://ai-workflow-orchestrator.pages.dev/architecture
+- https://ai-workflow-orchestrator.pages.dev/database
+- https://ai-workflow-orchestrator.pages.dev/deployment
+- https://ai-workflow-orchestrator.pages.dev/data-flow
+- https://ai-workflow-orchestrator.pages.dev/flows/
+- https://ai-workflow-orchestrator.pages.dev/personas/
+- https://ai-workflow-orchestrator.pages.dev/jtbd/
+- https://ai-workflow-orchestrator.pages.dev/sop/
+- https://ai-workflow-orchestrator.pages.dev/sop/setup
+- https://ai-workflow-orchestrator.pages.dev/sop/troubleshooting
+- https://ai-workflow-orchestrator.pages.dev/api/
+
+## 🌏 English - Localized Paths
+- https://ai-workflow-orchestrator.pages.dev/en/
+- https://ai-workflow-orchestrator.pages.dev/en/analysis
+- https://ai-workflow-orchestrator.pages.dev/en/architecture
+- https://ai-workflow-orchestrator.pages.dev/en/database
+- https://ai-workflow-orchestrator.pages.dev/en/deployment
+- https://ai-workflow-orchestrator.pages.dev/en/data-flow
+- https://ai-workflow-orchestrator.pages.dev/en/flows/
+- https://ai-workflow-orchestrator.pages.dev/en/personas/
+- https://ai-workflow-orchestrator.pages.dev/en/jtbd/
+- https://ai-workflow-orchestrator.pages.dev/en/sop/
+- https://ai-workflow-orchestrator.pages.dev/en/sop/setup
+- https://ai-workflow-orchestrator.pages.dev/en/sop/troubleshooting
+- https://ai-workflow-orchestrator.pages.dev/en/api/

@@ -1,0 +1,73 @@
+{
+  "execution_traces": [
+    {
+      "id": 1,
+      "workflow_id": "530e88a5-4ccd-42f3-afba-fc4a48df6eef",
+      "step_name": "Main Execution",
+      "agent_name": "Solution",
+      "input_data": "Implement a new data encryption module for user profiles",
+      "output_data": "Execution complete based on debate consensus",
+      "status": "COMPLETED",
+      "error_msg": "",
+      "timestamp": "2026-05-19T01:01:45.290753"
+    }
+  ],
+  "debates": [
+    {
+      "id": "346b012e-b56c-4e8c-9fdf-d3c027df50dd",
+      "context": "{'similar_history': [], 'request': 'Implement a new data encryption module for user profiles'}",
+      "objective": "Implement a new data encryption module for user profiles",
+      "consensus_decision": "APPROVED",
+      "confidence_score": 0.817351598173516,
+      "reasoning_trace": "Analyst (0.9): Initial context analysis for Implement a new data encryption module for user profiles\nSolution (0.85): Proposed solution for Implement a new data encryption module for user profiles\nCritic (0.8): Critical evaluation of Implement a new data encryption module for user profiles - found potential edge cases in scalability\nSecurity (0.95): Security audit for Implement a new data encryption module for user profiles - permissions verified\nOptimizer (0.88): Proposed optimizations for Implement a new data encryption module for user profiles",
+      "created_at": "2026-05-19T01:01:45.247942"
+    }
+  ],
+  "arguments": [
+    {
+      "id": 1,
+      "debate_id": "346b012e-b56c-4e8c-9fdf-d3c027df50dd",
+      "agent_name": "Analyst",
+      "argument": "Initial context analysis for Implement a new data encryption module for user profiles",
+      "is_pro": 1,
+      "confidence_score": 0.9,
+      "created_at": "2026-05-19T01:01:45.248614"
+    },
+    {
+      "id": 2,
+      "debate_id": "346b012e-b56c-4e8c-9fdf-d3c027df50dd",
+      "agent_name": "Solution",
+      "argument": "Proposed solution for Implement a new data encryption module for user profiles",
+      "is_pro": 1,
+      "confidence_score": 0.85,
+      "created_at": "2026-05-19T01:01:45.248698"
+    },
+    {
+      "id": 3,
+      "debate_id": "346b012e-b56c-4e8c-9fdf-d3c027df50dd",
+      "agent_name": "Critic",
+      "argument": "Critical evaluation of Implement a new data encryption module for user profiles - found potential edge cases in scalability",
+      "is_pro": 0,
+      "confidence_score": 0.8,
+      "created_at": "2026-05-19T01:01:45.248714"
+    },
+    {
+      "id": 4,
+      "debate_id": "346b012e-b56c-4e8c-9fdf-d3c027df50dd",
+      "agent_name": "Security",
+      "argument": "Security audit for Implement a new data encryption module for user profiles - permissions verified",
+      "is_pro": 1,
+      "confidence_score": 0.95,
+      "created_at": "2026-05-19T01:01:45.248725"
+    },
+    {
+      "id": 5,
+      "debate_id": "346b012e-b56c-4e8c-9fdf-d3c027df50dd",
+      "agent_name": "Optimizer",
+      "argument": "Proposed optimizations for Implement a new data encryption module for user profiles",
+      "is_pro": 1,
+      "confidence_score": 0.88,
+      "created_at": "2026-05-19T01:01:45.248732"
+    }
+  ]
+}

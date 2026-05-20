@@ -1,0 +1,41 @@
+[{"stream_name":"stdout","time":11.602325186,"data":"Scanning /kaggle/input...\n"}
+,{"stream_name":"stdout","time":11.608768692,"data":"/kaggle/input/competitions\n"}
+,{"stream_name":"stdout","time":11.608797184,"data":"/kaggle/input/datasets\n"}
+,{"stream_name":"stdout","time":11.608803574,"data":"/kaggle/input/competitions/playground-series-s6e5\n"}
+,{"stream_name":"stdout","time":11.608808668,"data":"/kaggle/input/competitions/playground-series-s6e5/sample_submission.csv\n"}
+,{"stream_name":"stdout","time":11.608813698,"data":"/kaggle/input/competitions/playground-series-s6e5/train.csv\n"}
+,{"stream_name":"stdout","time":11.608821966,"data":"/kaggle/input/competitions/playground-series-s6e5/test.csv\n"}
+,{"stream_name":"stdout","time":11.608826225,"data":"/kaggle/input/datasets/tienthinh\n"}
+,{"stream_name":"stdout","time":11.608830196,"data":"/kaggle/input/datasets/tienthinh/f1-strategy-dataset-v4\n"}
+,{"stream_name":"stdout","time":11.608834326,"data":"/kaggle/input/datasets/tienthinh/f1-strategy-dataset-v4/f1_strategy_dataset_v4.csv\n"}
+,{"stream_name":"stdout","time":11.608844872,"data":"Loading data...\n"}
+,{"stream_name":"stderr","time":11.609782397,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":11.609838376999999,"data":"  File \"/kaggle/src/script.py\", line 114, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":11.609843654,"data":"    train_df, test_df = load_and_preprocess()\n"}
+,{"stream_name":"stderr","time":11.609995455,"data":"                        ^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":11.610005075,"data":"  File \"/kaggle/src/script.py\", line 23, in load_and_preprocess\n"}
+,{"stream_name":"stderr","time":11.610163326,"data":"    train = pd.read_csv(f'{INPUT_DIR}/train.csv')\n"}
+,{"stream_name":"stderr","time":11.610257051,"data":"            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":11.610314912,"data":"  File \"/usr/local/lib/python3.12/dist-packages/pandas/io/parsers/readers.py\", line 1026, in read_csv\n"}
+,{"stream_name":"stderr","time":11.612571823,"data":"    return _read(filepath_or_buffer, kwds)\n"}
+,{"stream_name":"stderr","time":11.612667356,"data":"           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":11.61268443,"data":"  File \"/usr/local/lib/python3.12/dist-packages/pandas/io/parsers/readers.py\", line 620, in _read\n"}
+,{"stream_name":"stderr","time":11.612978361,"data":"    parser = TextFileReader(filepath_or_buffer, **kwds)\n"}
+,{"stream_name":"stderr","time":11.613100309,"data":"             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":11.613184617,"data":"  File \"/usr/local/lib/python3.12/dist-packages/pandas/io/parsers/readers.py\", line 1620, in __init__\n"}
+,{"stream_name":"stderr","time":11.613618516,"data":"    self._engine = self._make_engine(f, self.engine)\n"}
+,{"stream_name":"stderr","time":11.613786812,"data":"                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":11.6138499,"data":"  File \"/usr/local/lib/python3.12/dist-packages/pandas/io/parsers/readers.py\", line 1880, in _make_engine\n"}
+,{"stream_name":"stderr","time":11.61437378,"data":"    self.handles = get_handle(\n"}
+,{"stream_name":"stderr","time":11.614385888,"data":"                   ^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":11.614411332,"data":"  File \"/usr/local/lib/python3.12/dist-packages/pandas/io/common.py\", line 873, in get_handle\n"}
+,{"stream_name":"stderr","time":11.616482401,"data":"    handle = open(\n"}
+,{"stream_name":"stderr","time":11.616532049,"data":"             ^^^^^\n"}
+,{"stream_name":"stderr","time":11.616538425,"data":"FileNotFoundError: [Errno 2] No such file or directory: '/kaggle/input/playground-series-s6e5/train.csv'\n"}
+,{"stream_name":"stderr","time":14.686110374,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":14.686166109,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":14.967626332,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":14.96765664,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":15.774497995,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":16.769125901,"data":"[NbConvertApp] Writing 299789 bytes to __results__.html\n"}
+]

@@ -1,0 +1,58 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-05-19T06:38:12.183Z",
+  "activeFeatures": {},
+  "primaryFeature": null,
+  "archivedFeatures": {},
+  "pipeline": {
+    "currentPhase": 1,
+    "level": "Dynamic",
+    "phaseHistory": []
+  },
+  "session": {
+    "startedAt": "2026-05-19T05:41:03.061Z",
+    "onboardingCompleted": false,
+    "lastActivity": "2026-05-19T06:37:41.783Z"
+  },
+  "history": [
+    {
+      "timestamp": "2026-05-19T05:41:53.783Z",
+      "action": "session_end",
+      "feature": null,
+      "details": "Session ended"
+    },
+    {
+      "timestamp": "2026-05-19T05:41:53.881Z",
+      "action": "session_end",
+      "feature": null,
+      "details": "Session ended"
+    },
+    {
+      "timestamp": "2026-05-19T05:41:54.006Z",
+      "action": "session_end",
+      "feature": null,
+      "details": "Session ended"
+    },
+    {
+      "timestamp": "2026-05-19T06:37:41.560Z",
+      "action": "session_end",
+      "feature": null,
+      "details": "Session ended"
+    },
+    {
+      "timestamp": "2026-05-19T06:37:41.651Z",
+      "action": "session_end",
+      "feature": null,
+      "details": "Session ended"
+    },
+    {
+      "timestamp": "2026-05-19T06:37:41.784Z",
+      "action": "session_end",
+      "feature": null,
+      "details": "Session ended"
+    }
+  ],
+  "_snapshotTimestamp": "2026-05-19T07:01:31.674Z",
+  "_reason": "pre-compress",
+  "_jitPartial": false
+}

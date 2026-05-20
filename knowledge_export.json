@@ -1,0 +1,533 @@
+{
+  "project": "AI Workflow Orchestrator",
+  "export_date": "2026-05-19T12:45:49.398166",
+  "summary": "High-value reasoning and activity from the last 10 days.",
+  "working_memory": "# CodyMaster Working Memory \u2014 AI Workflow Orchestrator\nLast Updated: 2026-05-18\nCurrent Phase: production-hardening\nCurrent Iteration: 2\n\n## Active Goal\nImplementing advanced MAS patterns from Master Brain (Identity Guard, Circuit Breaker, Continuity).\n\n## Just Completed\n- [X] Analyzed low-confidence deadlock (0.38 score) in previous run.\n- [X] Applied Weighted Memory-Aware Reasoning in `aggregator.py`.\n- [X] Implemented Iterative Refinement (Rule of 3) in `rounds.py`.\n- [X] Created `core/identity.py` (Identity Guard pattern).\n\n## Next Actions (Priority Order)\n1. [ ] Integrate `enforce_identity()` into `main.py` entrypoint.\n2. [ ] Implement `TokenBudgetMiddleware` for FastAPI (Circuit Breaker).\n3. [ ] Finalize hackathon submission with evidence of \"Adversarial Consensus\".\n\n## Key Decisions This Session\n- **Decision**: Switch from static to dynamic weighting. **Rationale**: Master Brain identifies static weighting as a source of bias.\n- **Decision**: Implement Identity Guard. **Rationale**: Prevents accidental data contamination across different GCP/Mongo projects.\n\n## Mistakes & Learnings\n\n### Pattern: Error \u2192 Learning \u2192 Prevention\n- **What Failed**: Consensus was too low (0.38) but system said \"PROCEED\".\n- **Why It Failed**: Lack of threshold gates in the aggregation logic.\n- **How to Prevent**: Implement Hard Thresholds (Deadlock < 0.40, Doubt 0.40-0.79, Consensus > 0.80).\n\n## Working Context\nProject is participating in Google Cloud Rapid Agent Hackathon. \nBackend: FastAPI on HF Spaces. Frontend: Firebase. DB: MongoDB Atlas.\n",
+  "session_artifacts": [
+    {
+      "source": "session-2026-05-19T11-25-243a823d.jsonl",
+      "timestamp": "2026-05-19T11:29:24.801Z",
+      "type": "assistant_reasoning",
+      "thoughts": [],
+      "content": "I have completed the initial exploration and analysis of the existing codebase. The current structure provides the necessary modules (`orchestrator`, `agents`, `debate`, `memory`, etc.), but significant work is needed to meet your production-grade requirements.\n\n### Current State Analysis:\n1.  **Orchestrator:** Implements a high-level 11-step pipeline, but many steps (like `retrieve_similar_workflows` and `resolve_final_decision`) are rudimentary.\n2.  **Debate Engine:** Supports multi-round debates and agent Elos, but the consensus logic and contradiction detection are simple.\n3.  **Memory System:** Uses SQLite, but similarity lookup is limited to basic `LIKE` queries.\n4.  **Agents:** Specialized roles exist, but prompts and error handling need hardening.\n\n### Proposed Strategy: **\"Refinement & Hardening\"**\nI recommend focusing on hardening the existing architecture to ensure it meets the core mandates:\n- **Harden Agents:** Improve role-specific prompts and implement rigorous output validation.\n- **Robust Debate Logic:** Upgrade the `Aggregator` to handle complex contradictions and use historical agent accuracy weighting.\n- **Enhanced Memory:** Implement better similarity lookups and ensure \"Decision Artifacts\" are properly indexed and retrievable.\n- **Full Execution Trace:** Systematically integrate `log_execution_step` across the entire workflow for complete auditability.\n\n**Mandate 12 Check:** Before we proceed, are all necessary API keys (like `GOOGLE_API_KEY`) available and set in your environment?\n\nHow would you like to proceed?\n- **Approach A (Recommended):** Refinement & Hardening of the existing structure.\n- **Approach B:** Modular Redesign (more time-intensive, decoupled architecture).\n\nPlease confirm your preferred approach and API readiness."
+    },
+    {
+      "source": "session-2026-05-19T11-25-243a823d.jsonl",
+      "timestamp": "2026-05-19T11:31:57.763Z",
+      "type": "assistant_reasoning",
+      "thoughts": [],
+      "content": "### Implementation Plan Drafted\n\nI have drafted a detailed implementation plan for **Approach A: Refinement & Hardening** in `docs/01-plan/refinement-and-hardening.md`. \n\n**Objective:** Harden the existing codebase to meet production-grade standards through rigorous prompts, robust consensus mechanisms, enhanced memory integration, and full execution tracing.\n\n#### Summary of Phased Implementation:\n1.  **Phase 1: Core & Agents Hardening:** Refine prompts in `core/prompts.py` and implement JSON output validation and retry logic in `agents/base_agent.py`.\n2.  **Phase 2: Advanced Debate & Aggregation:** Refactor the `Aggregator` to handle contradiction detection and use historical accuracy weighting.\n3.  **Phase 3: Memory System & Similarity:** Implement \"Decision Artifacts\" storage and improve similarity lookup logic.\n4.  **Phase 4: Orchestrator Pipeline & Audit:** Complete the 11-step orchestrator sequence and systematically integrate execution tracing for a full audit trail.\n\n**Full Plan Content:**\n```markdown\n# Implementation Plan: AI Workflow Orchestrator - Refinement & Hardening\n\n## Objective\nHarden the existing AI Workflow Orchestrator codebase to meet production-grade standards. This includes improving agent reasoning, robustifying the debate consensus mechanism, enhancing memory-integrated lookups, and ensuring full execution auditability.\n\n## Key Files & Context\n- `orchestrator/engine.py`: Core 11-step pipeline.\n- `debate/aggregator.py` & `debate/rounds.py`: Debate logic and consensus.\n- `memory/database.py` & `memory/system.py`: SQLite-backed memory and similarity.\n- `agents/`: Specialized agent implementations and base logic.\n- `core/prompts.py` & `core/types.py`: System-wide prompts and data models.\n\n## Implementation Steps\n\n### Phase 1: Core & Agents Hardening\n1. **Prompts Enhancement:** Centralize and refine prompts in `core/prompts.py`. Ensure role-specific mandates (e.g., Critic's hard adversarial focus) are explicit.\n2. **BaseAgent Robustness:** Implement standard JSON output parsing and validation in `agents/base_agent.py`. Add retry logic for malformed LLM outputs.\n3. **Identity Verification:** Ensure `core/identity.py` and `enforce_identity()` are rigorously applied at system entry.\n\n### Phase 2: Advanced Debate & Aggregation\n1. **Aggregator Upgrade:** Refactor `debate/aggregator.py` to:\n    - Implement contradiction detection between `Solution` and `Critic`/`Security`.\n    - Use historical agent accuracy (retrieved from `memory/database.py`) as a weighting factor.\n    - Formalize decision thresholds (Consensus vs. Doubt vs. Deadlock).\n2. **Debate rounds refinement:** Ensure `debate/rounds.py` correctly handles memory context injection and iterative refinement loops.\n\n### Phase 3: Memory System & Similarity\n1. **Memory Integration:** Update `memory/database.py` to store \"Decision Artifacts\" (full debate state + verified outcome).\n2. **Similarity Lookup:** Enhance `get_similar_decisions` to use better weighting or multiple lookup strategies (initially keyword-dense LIKE, with structure for future vector extensions).\n3. **Elo System:** Ensure Elo updates are correctly applied based on verified outcomes (Decision Artifacts).\n\n### Phase 4: Orchestrator Pipeline & Audit\n1. **11-Step Workflow Implementation:** Complete any missing logic in the 11-step sequence within `orchestrator/engine.py`.\n2. **Execution Tracing:** Systematically integrate `log_execution_step` across all modules. Ensure every workflow has a unique `trace_id`.\n3. **Self-Healing Logic:** Robustify `observability/self_heal_hook.py` to handle common failure patterns identified in the debate/memory loop.\n\n## Verification & Testing\n- **Unit Tests:** Add/Update tests for `DebateAggregator` (consensus logic) and `MemorySystem` (storage and retrieval).\n- **Integration Test:** Run a full \"End-to-End\" workflow using a complex prompt (e.g., \"deploy secure cluster\") and verify the log output via `qa_monitor.py`.\n- **Audit Verification:** Query `memory.db` after execution to ensure all traces, arguments, and consensus results are correctly persisted.\n\n## Mandate 12 Checklist\n- [ ] GOOGLE_API_KEY is verified and set.\n- [ ] All participants have DEBATE and EXECUTION modes confirmed.\n- [ ] No mocks used in final verification.\n```\n\nPlease review this detailed plan. If you agree, I will proceed to formal approval. \n\n**Mandate 12 Check:** Is `GOOGLE_API_KEY` set in your environment? (Yes/No)"
+    },
+    {
+      "source": "session-2026-05-19T11-25-243a823d.jsonl",
+      "timestamp": "2026-05-19T12:01:27.095Z",
+      "type": "assistant_reasoning",
+      "thoughts": [],
+      "content": "### Implementation Complete: Production-Grade AI Workflow Orchestrator\n\nI have successfully implemented and verified the **AI Workflow Orchestrator** system, adhering to all core mandates and the refined implementation plan.\n\n#### Key Achievements:\n1.  **Hardened Multi-Agent System:**\n    -   Centralized and refined prompts in `core/prompts.py` with explicit role-specific mandates (e.g., Critic's hard adversarial focus).\n    -   Robustified `BaseAgent` in `agents/base_agent.py` with systematic JSON output validation and retry logic.\n2.  **Advanced Debate & Consensus:**\n    -   Upgraded the `DebateAggregator` with a weighted voting mechanism incorporating **Agent Elo** and **Historical Accuracy**.\n    -   Implemented sophisticated contradiction detection between the Solution and adversarial agents (Critic/Security).\n3.  **Enhanced Memory Engine:**\n    -   Upgraded `memory/database.py` with **SQLite FTS5** for semantic-like similarity lookups.\n    -   Implemented **\"Decision Artifact\"** storage, properly indexing full debate states and verified outcomes.\n4.  **11-Step Production Pipeline:**\n    -   Finalized the full orchestrator sequence in `orchestrator/engine.py`, ensuring every stage is auditable and traceable.\n    -   Systematically integrated `log_execution_step` across the entire workflow for a complete audit trail.\n5.  **Auditability & Reliability:**\n    -   Automated generation of structured `REASONING TRACE` logs, saved both as artifacts and in the database.\n    -   Refined self-healing logic in `observability/self_heal_hook.py` to handle production-level failures.\n\n#### Final Validation Proof:\nThe system was verified through a complete end-to-end execution of a complex request (*\"deploy a secure and scalable database cluster on GKE...\"*). The audit log confirms:\n-   **Step 1-11 execution:** All milestones completed successfully.\n-   **Adversarial Rigor:** The Critic and Security agents identified significant risks, triggering multiple refinement passes.\n-   **Traceability:** A full trace was recorded in `memory.db` and saved to `storage/traces/`.\n\nThe system is now fully operational, deterministic, and ready for production-grade AI workflow orchestration.\n\n\u2550\u2550\u2550\u2550\u2550\u2229\u2550\u2550\u2550\u2550\u2550 \u3000\n\u3000\u3000\u3000 \u256d\u256c\u256e\u3000\u3000\u3000\u3000\u3000\u3000\u3000 \u25e2\n\u2581\u256d\u2585\u2586\u2587\u25a1\u25a1\u2588\u2587\u2586\u2585\u2584\u2583\u2582\u2581(\u2573)\u2588\u256e \n\u2570\u2550=_\u2583\u2581\u2581\u2581\u2581\u2581\u2220\u2594\u2594\n\u3000\u3000\u2559O \u2559O \ud83e\udd52"
+    },
+    {
+      "source": "session-2026-05-19T11-25-243a823d.jsonl",
+      "timestamp": "2026-05-19T12:37:25.662Z",
+      "type": "assistant_reasoning",
+      "thoughts": [
+        {
+          "subject": "Exploring Log Export Issues",
+          "description": "My initial export yielded logs but no knowledge artifacts. I suspect the \"REASONING TRACE\" search term might be overly restrictive, or session file formats differ. I'll now examine a single session file directly to investigate this discrepancy.",
+          "timestamp": "2026-05-19T12:37:25.392Z"
+        }
+      ],
+      "content": ""
+    },
+    {
+      "source": "session-2026-05-19T11-25-243a823d.jsonl",
+      "timestamp": "2026-05-19T12:37:25.662Z",
+      "type": "assistant_reasoning",
+      "thoughts": [
+        {
+          "subject": "Exploring Log Export Issues",
+          "description": "My initial export yielded logs but no knowledge artifacts. I suspect the \"REASONING TRACE\" search term might be overly restrictive, or session file formats differ. I'll now examine a single session file directly to investigate this discrepancy.",
+          "timestamp": "2026-05-19T12:37:25.392Z"
+        }
+      ],
+      "content": ""
+    },
+    {
+      "source": "session-2026-05-19T09-38-61a0ab50.jsonl",
+      "timestamp": "2026-05-19T09:41:18.611Z",
+      "type": "assistant_reasoning",
+      "thoughts": [],
+      "content": "## Skill Created: mr-meeseeks\n\n- **Path**: `skills/mr-meeseeks/SKILL.md`\n- **Classification**: W (Workflow)\n- **Status**: Ready to use\n\nI have implemented the **Mr. Meeseeks Skill** based on your description. This skill is designed for high-intensity, single-purpose task fulfillment with the characteristic lifecycle of a Meeseeks: summoning, focused execution (becoming increasingly \"unhinged\" if delayed), and final \"vanishing\" upon completion.\n\n### Refinement Questions:\n1. **Specific Tools**: Should this skill have access to any specific MCP tools beyond the standard file operations (e.g., specialized research or coding tools)?\n2. **Triggers**: Are there any other specific catchphrases or triggers you'd like to add (e.g., \"Caaaan do!\" or \"Square your shoulders!\")?\n3. **Insanity Threshold**: I set the \"unhinged\" mode to trigger after 5 turns. Would you like to adjust this threshold or add specific behaviors for that state?\n\nNext steps:\n1. Review and customize `skills/mr-meeseeks/SKILL.md`\n2. Test with the `/mr-meeseeks` command.\n\n```\nbkit Feature Usage\nUsed: skill-create (activated), write_file, run_shell_command\nNot Used: pdca-iterator (not needed yet), report-generator (not needed yet)\nRecommended: /mr-meeseeks \"verify the new skill structure\"\n```"
+    },
+    {
+      "source": "session-2026-05-19T07-06-75ba40f3.jsonl",
+      "timestamp": "2026-05-19T08:09:54.988Z",
+      "type": "assistant_reasoning",
+      "thoughts": [],
+      "content": "I have successfully implemented the **Zero Script QA** methodology for the AI Workflow Orchestrator. This approach replaces traditional, brittle test scripts with structured observability and pattern-based verification.\n\n### Key Implementation Highlights:\n\n1.  **Structured JSON Logging**:\n    *   Created `core/logging_setup.py` which implements a custom `JsonFormatter`.\n    *   Configured the system to output all logs in a machine-readable JSON format, including metadata like `timestamp`, `level`, `module`, and `event`.\n    *   Integrated this setup into both the CLI entrypoint (`main.py`) and the REST API server (`api/server.py`).\n\n2.  **Event-Driven Instrumentation**:\n    *   Refactored `core/identity.py` to log security identity checks as structured events.\n    *   Updated `orchestrator/engine.py` to emit `workflow.milestone` and `workflow.start` events for each step of the 11-stage pipeline.\n    *   Instrumented `debate/aggregator.py` to log `debate.consensus` results with confidence scores and status tags (e.g., `success`, `rejected`, `deadlock`).\n\n3.  **Autonomous QA Monitor**:\n    *   Developed `scripts/qa_monitor.py`, a tool that reads JSON logs (from files or STDIN) and verifies system behavior against a set of rules.\n    *   Defined initial verification patterns in `qa/patterns.json`, covering system startup, workflow execution flow, and security veto scenarios.\n\n4.  **Documentation & Usage**:\n    *   Updated the `README.md` with instructions on how to run the Zero Script QA pipeline.\n    *   You can now verify the system's integrity by piping the execution output directly into the monitor:\n        ```bash\n        export SKIP_IDENTITY_CHECK=true && python main.py \"your task\" | python scripts/qa_monitor.py\n        ```\n\nThis implementation provides a \"Self-Healing\" ready observability layer that ensures every agent action and orchestrator decision is traceable and verifiable in production-like environments.\n\n```\nbkit Feature Usage\nUsed: zero-script-qa, pdca, cm-continuity, cm-start, using-arxitect\nNot Used: None (skill-specific task)\nRecommended: /pdca analyze (to verify the new implementation against design)\n```"
+    }
+  ],
+  "raw_logs": [
+    {
+      "sessionId": "abac16f5-bc81-4e96-963b-4ebd5ed360a0",
+      "messageId": 0,
+      "type": "user",
+      "message": "/auth signin",
+      "timestamp": "2026-05-19T05:41:26.664Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 0,
+      "type": "user",
+      "message": "/model manage",
+      "timestamp": "2026-05-19T05:42:22.177Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 1,
+      "type": "user",
+      "message": "/cody-master:cm-code-review",
+      "timestamp": "2026-05-19T05:43:14.915Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 2,
+      "type": "user",
+      "message": "@code-analyzer",
+      "timestamp": "2026-05-19T05:43:43.568Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 3,
+      "type": "user",
+      "message": "hey",
+      "timestamp": "2026-05-19T05:44:06.081Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 4,
+      "type": "user",
+      "message": "hey",
+      "timestamp": "2026-05-19T05:44:28.402Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 5,
+      "type": "user",
+      "message": "/model manage",
+      "timestamp": "2026-05-19T05:44:34.593Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 6,
+      "type": "user",
+      "message": "hey",
+      "timestamp": "2026-05-19T05:44:50.620Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 7,
+      "type": "user",
+      "message": "/model set",
+      "timestamp": "2026-05-19T05:45:38.841Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 8,
+      "type": "user",
+      "message": "/model set",
+      "timestamp": "2026-05-19T05:45:41.970Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 9,
+      "type": "user",
+      "message": "/model set",
+      "timestamp": "2026-05-19T05:45:44.835Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 10,
+      "type": "user",
+      "message": "/model set",
+      "timestamp": "2026-05-19T05:45:46.739Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 11,
+      "type": "user",
+      "message": "hey",
+      "timestamp": "2026-05-19T05:45:48.851Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 12,
+      "type": "user",
+      "message": "/model  1",
+      "timestamp": "2026-05-19T05:45:55.049Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 13,
+      "type": "user",
+      "message": "hey",
+      "timestamp": "2026-05-19T05:46:03.711Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 14,
+      "type": "user",
+      "message": "/auth signin",
+      "timestamp": "2026-05-19T05:46:14.722Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 15,
+      "type": "user",
+      "message": "/auth signin",
+      "timestamp": "2026-05-19T05:46:24.882Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 16,
+      "type": "user",
+      "message": "/model manage",
+      "timestamp": "2026-05-19T05:48:06.090Z"
+    },
+    {
+      "sessionId": "44239374-9b5e-470f-9d85-f8fb8a3f85f5",
+      "messageId": 17,
+      "type": "user",
+      "message": "/auth signin",
+      "timestamp": "2026-05-19T05:48:13.474Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 0,
+      "type": "user",
+      "message": "/omg:hooks-init",
+      "timestamp": "2026-05-19T05:59:28.910Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 1,
+      "type": "user",
+      "message": "/bkit:gemini-cli-learning",
+      "timestamp": "2026-05-19T06:05:25.718Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 2,
+      "type": "user",
+      "message": "..",
+      "timestamp": "2026-05-19T06:06:52.448Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 3,
+      "type": "user",
+      "message": "gemini extensions install https://github.com/blacktop/mcp-tts",
+      "timestamp": "2026-05-19T06:09:19.663Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 4,
+      "type": "user",
+      "message": "/mcp-tts",
+      "timestamp": "2026-05-19T06:13:42.117Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 5,
+      "type": "user",
+      "message": "say_tts",
+      "timestamp": "2026-05-19T06:27:17.858Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 6,
+      "type": "user",
+      "message": "<br />\n\n# Text-to-speech generation (TTS)\n\n> [!NOTE]\n> **Note** : This version of the page covers the new [Interactions API](https://ai.google.dev/gemini-api/docs/interactions), which is currently in Beta.  \n> For stable production deployments, we recommend you continue to use the `generateContent` API. You can use the toggle on this page to switch between the versions.\n\nThe Gemini API can transform text input into single speaker or multi-speaker\naudio using Gemini text-to-speech (TTS) generation capabilities.\nText-to-speech (TTS) generation is *[controllable](https://ai.google.dev/gemini-api/docs/interactions/speech-generation#controllable)* ,\nmeaning you can use natural language to structure interactions and guide the\n*style* , *accent* , *pace* , and *tone* of the audio.\n\nThe TTS capability differs from speech generation provided through the\n[Live API](https://ai.google.dev/gemini-api/docs/live), which is designed for interactive,\nunstructured audio, and multimodal inputs and outputs. While the Live API excels\nin dynamic conversational contexts, TTS through the Gemini API\nis tailored for scenarios that require exact text recitation with fine-grained\ncontrol over style and sound, such as podcast or audiobook generation.\n\nThis guide shows you how to generate single-speaker and multi-speaker audio from\ntext.\n\n> [!WARNING]\n> **Preview:** Gemini text-to-speech (TTS) is in [Preview](https://ai.google.dev/gemini-api/docs/models#preview).\n\n## Before you begin\n\nEnsure you use a Gemini 2.5 model variant with Gemini text-to-speech (TTS)\ncapabilities, as listed in the [Supported models](https://ai.google.dev/gemini-api/docs/interactions/speech-generation#supported-models)\nsection. For optimal results, consider which model best fits your specific\nuse case.\n\nYou may find it useful to \\[test the Gemini 2.5 TTS models in AI Studio\\]\n\n> [!NOTE]\n> **Note:** TTS models accept text-only inputs and produce audio-only outputs. For a complete list of restrictions specific to TTS models, review the [Limitations](https://ai.google.dev/gemini-api/docs/interactions/speech-generation#limitations) section.\n\n## Single-speaker TTS\n\nTo convert text to single-speaker audio, set the response modality to \"audio\",\nand pass a `speech_config` object with a voice name.\nYou'll need to choose a voice name from the prebuilt [output voices](https://ai.google.dev/gemini-api/docs/interactions/speech-generation#voices).\n\nThis example saves the output audio from the model in a wave file:\n\n### Python\n\n    # This will only work for SDK newer than 2.0.0\n    from google import genai\n    import wave\n    import base64\n\n    def wave_file(filename, pcm, channels=1, rate=24000, sample_width=2):\n        with wave.open(filename, \"wb\") as wf:\n            wf.setnchannels(channels)\n            wf.setsampwidth(sample_width)\n            wf.setframerate(rate)\n            wf.writeframes(pcm)\n\n    client = genai.Client()\n\n    interaction = client.interactions.create(\n        model=\"gemini-3.1-flash-tts-preview\",\n        input=\"Say cheerfully: Have a wonderful day!\",\n        response_modalities=[\"audio\"],\n        generation_config={\n            \"speech_config\": [\n                {\"voice\": \"Kore\"}\n            ]\n        }\n    )\n\n    data = None\n    for step in interaction.steps:\n        for content_block in step.content:\n            if content_block.type == \"audio\":\n                data = base64.b64decode(content_block.data)\n                break\n        if data:\n            break\n    wave_file('out.wav', data)\n\n### JavaScript\n\n    // This will only work for SDK newer than 2.0.0\n    import {GoogleGenAI} from '@google/genai';\n    import wav from 'wav';\n\n    async function saveWaveFile(\n       filename,\n       pcmData,\n       channels = 1,\n       rate = 24000,\n       sampleWidth = 2,\n    ) {\n       return new Promise((resolve, reject) => {\n          const writer = new wav.FileWriter(filename, {\n                channels,\n                sampleRate: rate,\n                bitDepth: sampleWidth * 8,\n          });\n\n          writer.on('finish', resolve);\n          writer.on('error', reject);\n\n          writer.write(pcmData);\n          writer.end();\n       });\n    }\n\n    async function main() {\n       const client = new GoogleGenAI({});\n\n       const interaction = await client.interactions.create({\n          model: \"gemini-3.1-flash-tts-preview\",\n          input: \"Say cheerfully: Have a wonderful day!\",\n          response_modalities: ['audio'],\n          generation_config: {\n             speech_config: [\n                { voice: 'Kore' }\n             ]\n          },\n        });\n\n       let data = null;\n       for (const step of interaction.steps) {\n          for (const contentBlock of step.content) {\n             if (contentBlock.type === 'audio') {\n                data = contentBlock.data;\n                break;\n             }\n          }\n          if (data) break;\n       }\n       const audioBuffer = Buffer.from(data, 'base64');\n       await saveWaveFile('out.wav', audioBuffer);\n    }\n    await main();\n\n### REST\n\n    # Specifies the API revision to avoid breaking changes when they become default\n    curl -X POST \"https://generativelanguage.googleapis.com/v1beta/interactions\" \\\n      -H \"x-goog-api-key: $GEMINI_API_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -H \"Api-Revision: 2026-05-20\" \\\n      -d '{\n        \"model\": \"gemini-3.1-flash-tts-preview\",\n        \"input\": \"Say cheerfully: Have a wonderful day!\",\n        \"response_modalities\": [\"audio\"],\n        \"generation_config\": {\n          \"speech_config\": [\n            { \"voice\": \"Kore\" }\n          ]\n        }\n      }'\n\n## Multi-speaker TTS\n\nFor multi-speaker audio, you'll need a `multi_speaker_voice_config` object with\neach speaker (up to 2) configured as a `speaker_voice_config`.\nYou'll need to define each `speaker` with the same names used in the\n[prompt](https://ai.google.dev/gemini-api/docs/interactions/speech-generation#controllable):\n\n### Python\n\n    # This will only work for SDK newer than 2.0.0\n    from google import genai\n    import wave\n    import base64\n\n    def wave_file(filename, pcm, channels=1, rate=24000, sample_width=2):\n       with wave.open(filename, \"wb\") as wf:\n          wf.setnchannels(channels)\n          wf.setsampwidth(sample_width)\n          wf.setframerate(rate)\n          wf.writeframes(pcm)\n\n    client = genai.Client()\n\n    prompt = \"\"\"TTS the following conversation between Joe and Jane:\n             Joe: How's it going today Jane?\n             Jane: Not too bad, how about you?\"\"\"\n\n     interaction = client.interactions.create(\n         model=\"gemini-3.1-flash-tts-preview\",\n         input=prompt,\n         response_modalities=[\"audio\"],\n         generation_config={\n             \"speech_config\": [\n                 {\"speaker\": \"Joe\", \"voice\": \"Kore\"},\n                 {\"speaker\": \"Jane\", \"voice\": \"Puck\"}\n             ]\n         }\n     )\n\n    data = None\n    for step in interaction.steps:\n       for content_block in step.content:\n          if content_block.type == \"audio\":\n             data = base64.b64decode(content_block.data)\n             break\n       if data:\n          break\n    wave_file('out.wav', data)\n\n### JavaScript\n\n    // This will only work for SDK newer than 2.0.0\n    import {GoogleGenAI} from '@google/genai';\n    import wav from 'wav';\n\n    async function saveWaveFile(\n       filename,\n       pcmData,\n       channels = 1,\n       rate = 24000,\n       sampleWidth = 2,\n    ) {\n       return new Promise((resolve, reject) => {\n          const writer = new wav.FileWriter(filename, {\n                channels,\n                sampleRate: rate,\n                bitDepth: sampleWidth * 8,\n          });\n\n          writer.on('finish', resolve);\n          writer.on('error', reject);\n\n          writer.write(pcmData);\n          writer.end();\n       });\n    }\n\n    async function main() {\n       const client = new GoogleGenAI({});\n\n       const prompt = `TTS the following conversation between Joe and Jane:\n             Joe: How's it going today Jane?\n             Jane: Not too bad, how about you?`;\n\n       const interaction = await client.interactions.create({\n          model: \"gemini-3.1-flash-tts-preview\",\n          input: prompt,\n          response_modalities: ['audio'],\n          generation_config: {\n             speech_config: [\n                { speaker: 'Joe', voice: 'Kore' },\n                { speaker: 'Jane', voice: 'Puck' }\n             ]\n          },\n       });\n\n       let data = null;\n       for (const step of interaction.steps) {\n          for (const contentBlock of step.content) {\n             if (contentBlock.type === 'audio') {\n                data = contentBlock.data;\n                break;\n             }\n          }\n          if (data) break;\n       }\n       const audioBuffer = Buffer.from(data, 'base64');\n       await saveWaveFile('out.wav', audioBuffer);\n    }\n\n    await main();\n\n### REST\n\n    # Specifies the API revision to avoid breaking changes when they become default\n    curl -X POST \"https://generativelanguage.googleapis.com/v1beta/interactions\" \\\n      -H \"x-goog-api-key: $GEMINI_API_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -H \"Api-Revision: 2026-05-20\" \\\n      -d '{\n      \"model\": \"gemini-3.1-flash-tts-preview\",\n      \"input\": \"TTS the following conversation between Joe and Jane: Joe: Hows it going today Jane? Jane: Not too bad, how about you?\",\n      \"response_modalities\": [\"audio\"],\n      \"generation_config\": {\n        \"speech_config\": [\n          { \"speaker\": \"Joe\", \"voice\": \"Kore\" },\n          { \"speaker\": \"Jane\", \"voice\": \"Puck\" }\n        ]\n      }\n    }'\n\n## Control speech style with prompts\n\nYou can control style, tone, accent, and pace using natural language prompts\nfor both single- and multi-speaker TTS.\nFor example, in a single-speaker prompt, you can say:\n\n    Say in an spooky whisper:\n    \"By the pricking of my thumbs...\n    Something wicked this way comes\"\n\nIn a multi-speaker prompt, provide the model with each speaker's name and\ncorresponding transcript. You can also provide guidance for each speaker\nindividually:\n\n    Make Speaker1 sound tired and bored, and Speaker2 sound excited and happy:\n\n    Speaker1: So... what's on the agenda today?\n    Speaker2: You're never going to guess!\n\nTry using a [voice option](https://ai.google.dev/gemini-api/docs/interactions/speech-generation#voices) that corresponds to the style or emotion you\nwant to convey, to emphasize it even more. In the previous prompt, for example,\n*Enceladus* 's breathiness might emphasize \"tired\" and \"bored\", while\n*Puck*'s upbeat tone could complement \"excited\" and \"happy\".\n\n> [!TIP]\n> **Tip:** The \\[Voice Library\\] applet in Google AI Studio is a great way to try out speech styles and voices with Gemini TTS.\n\n## Generate a prompt to convert to audio\n\nThe TTS models only output audio, but you can use\n[other models](https://ai.google.dev/gemini-api/docs/models) to generate a transcript first,\nthen pass that transcript to the TTS model to read aloud.\n\n### Python\n\n    # This will only work for SDK newer than 2.0.0\n    from google import genai\n\n    client = genai.Client()\n\n    transcript_interaction = client.interactions.create(\n       model=\"gemini-3-flash-preview\",\n       input=\"\"\"Generate a short transcript around 100 words that reads\n                like it was clipped from a podcast by excited herpetologists.\n                The hosts names are Dr. Anya and Liam.\"\"\"\n    )\n    transcript = transcript_interaction.steps[-1].content[0].text\n\n    tts_interaction = client.interactions.create(\n       model=\"gemini-3.1-flash-tts-preview\",\n       input=transcript,\n       response_modalities=[\"audio\"],\n       generation_config={\n          \"speech_config\": [\n             {\"speaker\": \"Dr. Anya\", \"voice\": \"Kore\"},\n             {\"speaker\": \"Liam\", \"voice\": \"Puck\"}\n          ]\n       }\n    )\n\n    # ...Code to stream or save the output\n\n### JavaScript\n\n    // This will only work for SDK newer than 2.0.0\n    import { GoogleGenAI } from \"@google/genai\";\n\n    const client = new GoogleGenAI({});\n\n    async function main() {\n\n    const transcriptInteraction = await client.interactions.create({\n       model: \"gemini-3-flash-preview\",\n       input: \"Generate a short transcript around 100 words that reads like it was clipped from a podcast by excited herpetologists. The hosts names are Dr. Anya and Liam.\",\n       })\n\n    const ttsInteraction = await client.interactions.create({\n       model: \"gemini-3.1-flash-tts-preview\",\n       input: transcriptInteraction.steps.at(-1).content[0].text,\n       response_modalities: ['audio'],\n       generation_config: {\n          speech_config: [\n             { speaker: \"Dr. Anya\", voice: \"Kore\" },\n             { speaker: \"Liam\", voice: \"Puck\" }\n          ]\n       }\n      });\n    }\n    // ..JavaScript code for exporting .wav file for output audio\n\n    await main();\n\n## Voice options\n\nTTS models support the following 30 voice options in the `voice_name` field:\n\n|---|---|---|\n| **Zephyr** -- *Bright* | **Puck** -- *Upbeat* | **Charon** -- *Informative* |\n| **Kore** -- *Firm* | **Fenrir** -- *Excitable* | **Leda** -- *Youthful* |\n| **Orus** -- *Firm* | **Aoede** -- *Breezy* | **Callirrhoe** -- *Easy-going* |\n| **Autonoe** -- *Bright* | **Enceladus** -- *Breathy* | **Iapetus** -- *Clear* |\n| **Umbriel** -- *Easy-going* | **Algieba** -- *Smooth* | **Despina** -- *Smooth* |\n| **Erinome** -- *Clear* | **Algenib** -- *Gravelly* | **Rasalgethi** -- *Informative* |\n| **Laomedeia** -- *Upbeat* | **Achernar** -- *Soft* | **Alnilam** -- *Firm* |\n| **Schedar** -- *Even* | **Gacrux** -- *Mature* | **Pulcherrima** -- *Forward* |\n| **Achird** -- *Friendly* | **Zubenelgenubi** -- *Casual* | **Vindemiatrix** -- *Gentle* |\n| **Sadachbia** -- *Lively* | **Sadaltager** -- *Knowledgeable* | **Sulafat** -- *Warm* |\n\nYou can hear all the voice options in\n\n## Supported languages\n\nThe TTS models detect the input language automatically. The following languages\nare supported:\n\n| Language | BCP-47 Code | Language | BCP-47 Code |\n|---|---|---|---|\n| Arabic | ar | Filipino | fil |\n| Bangla | bn | Finnish | fi |\n| Dutch | nl | Galician | gl |\n| English | en | Georgian | ka |\n| French | fr | Greek | el |\n| German | de | Gujarati | gu |\n| Hindi | hi | Haitian Creole | ht |\n| Indonesian | id | Hebrew | he |\n| Italian | it | Hungarian | hu |\n| Japanese | ja | Icelandic | is |\n| Korean | ko | Javanese | jv |\n| Marathi | mr | Kannada | kn |\n| Polish | pl | Konkani | kok |\n| Portuguese | pt | Lao | lo |\n| Romanian | ro | Latin | la |\n| Russian | ru | Latvian | lv |\n| Spanish | es | Lithuanian | lt |\n| Tamil | ta | Luxembourgish | lb |\n| Telugu | te | Macedonian | mk |\n| Thai | th | Maithili | mai |\n| Turkish | tr | Malagasy | mg |\n| Ukrainian | uk | Malay | ms |\n| Vietnamese | vi | Malayalam | ml |\n| Afrikaans | af | Mongolian | mn |\n| Albanian | sq | Nepali | ne |\n| Amharic | am | Norwegian, Bokm\u00e5l | nb |\n| Armenian | hy | Norwegian, Nynorsk | nn |\n| Azerbaijani | az | Odia | or |\n| Basque | eu | Pashto | ps |\n| Belarusian | be | Persian | fa |\n| Bulgarian | bg | Punjabi | pa |\n| Burmese | my | Serbian | sr |\n| Catalan | ca | Sindhi | sd |\n| Cebuano | ceb | Sinhala | si |\n| Chinese, Mandarin | cmn | Slovak | sk |\n| Croatian | hr | Slovenian | sl |\n| Czech | cs | Swahili | sw |\n| Danish | da | Swedish | sv |\n| Estonian | et | Urdu | ur |\n\n## Supported models\n\n| Model | Single speaker | Multispeaker |\n|---|---|---|\n| [Gemini 3.1 Flash TTS Preview](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-tts-preview) | \u2714\ufe0f | \u2714\ufe0f |\n| [Gemini 2.5 Flash Preview TTS](https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-preview-tts) | \u2714\ufe0f | \u2714\ufe0f |\n| [Gemini 2.5 Pro Preview TTS](https://ai.google.dev/gemini-api/docs/models/gemini-2.5-pro-preview-tts) | \u2714\ufe0f | \u2714\ufe0f |\n\n## Prompting guide\n\nThe **Gemini Native Audio Generation Text-to-Speech (TTS)** model differentiates\nitself from conventional TTS models by using a large language model that\nknows ***not only what to say, but also how to say it***.\n\nYou can think of an advanced prompt as a system instruction for the model to\nfollow. It's a way to give the model more context and control over the\nperformance.\n\nTo unlock this capability, users can think of themselves as directors setting a\nscene for a virtual voice talent to perform. To craft a prompt, we recommend\nconsidering the following components: an **Audio Profile** that defines the\ncharacter's core identity and archetype; a **Scene description** that\nestablishes the physical environment and emotional \"vibe\"; and **Director's\nNotes** that offer more precise performance guidance regarding style, accent and\npace control.\n\nBy providing nuanced instructions such as a precise regional accent, specific\nparalinguistic features (e.g. breathiness), or pacing, users can leverage the\nmodel's context awareness to generate highly dynamic, natural and expressive\naudio performances. For optimal performance, we recommend the **Transcript** and\ndirectorial prompts align, *so that \"who is saying it\"* matches with *\"what is\nsaid\"* and *\"how it is being said.\"*\n\nThe purpose of this guide is to offer fundamental direction and spark ideas when\ndeveloping audio experiences using Gemini TTS audio generation. We are excited\nto witness what you create!\n\n### Audio tags\n\nTags are inline modifiers like `[whispers]` or `[laughs]` that give you granular\ncontrol over the delivery. You can use them to change the tone, pace, and\nemotional vibe of a line or section of the transcript. You can also use them to\nadd interjections and a few other non-verbal sounds to the performance, like\n`[cough]`, `[sighs]` or `[gasp]`.\n\nThere is no exhaustive list on what tags do and don't work, we recommend\nexperimenting with different emotions and expressions to see how the output\nchanges.\n\nIf your transcript is not in English, for best results we recommend that you\nstill use English audio tags.\n\n**Be creative with audio tags**\n\nTo show the kind of variability you can get with audio tags, here are a set of\nexamples that each say the same thing, but the delivery changes based on the\ntags used.\n\nYou can change the emphasis of the delivery by adding tags at the start of a\nline to make the speaker excited, bored, or reluctant:\n\n- `[excitedly]` Hey there, I'm a new text to speech model, and I can say things in many different ways. How can I help you today?\n- `[bored]` Hey there, I'm a new text to speech model...\n- `[reluctantly]` Hey there, I'm a new text to speech model...\n\nTags can also be used to change the pace of the delivery, or to combine pace\nwith emphasis:\n\n- `[very fast]` Hey there, I'm a new text to speech model...\n- `[very slow]` Hey there, I'm a new text to speech model...\n- `[sarcastically, one painfully slow word at a time]` Hey there, I'm a new text to speech model...\n\nYou also have precise control over specific sections, meaning you can whisper\none part and shout another.\n\n- `[whispers]` Hey there, I'm a new text to speech model, `[shouting]` and I can say things in many different ways. `[whispers]` How can I help you today\n\nYou can also experiment with any creative idea you want:\n\n- `[like a cartoon dog]` Hey there, I'm a new text to speech model...\n- `[like dracula]` Hey there, I'm a new text to speech model...\n\nCommonly used tags include:\n\n|---|---|---|---|\n| `[amazed]` | `[crying]` | `[curious]` | `[excited]` |\n| `[sighs]` | `[gasp]` | `[giggles]` | `[laughs]` |\n| `[mischievously]` | `[panicked]` | `[sarcastic]` | `[serious]` |\n| `[shouting]` | `[tired]` | `[trembling]` | `[whispers]` |\n\nTags give quick control over the delivery of your transcript. For even\nmore control, you can combine them with a context prompt to set the overall tone\nand vibe of the performance.\n\n### Prompting structure\n\nA robust prompt ideally includes the following elements that come together to\ncraft a great performance:\n\n- **Audio Profile** - Establishes a persona for the voice, defining a character identity, archetype and any other characteristics like age, background etc.\n- **Scene** - Sets the stage. Describes both the physical environment and the \"vibe\".\n- **Director's Notes** - Performance guidance where you can break down which instructions are important for your virtual talent to take note of. Examples are style, breathing, pacing, articulation and accent.\n- **Sample context** - Gives the model a contextual starting point, so your virtual actor enters the scene you set up naturally.\n- **Transcript** - The text that the model will speak out. For best performance, remember that the transcript topic and writing style should correlate to the directions you are giving.\n- **Audio tags** - Modifiers you can put into a transcript to change how that part of the text is delivered, such as `[whispers]` or `[shouting]`.\n\n> [!NOTE]\n> **Note:** Have Gemini help you build your prompt, just give it a blank outline of the following format and ask it to sketch out a character for you.\n\nExample full prompt:\n\n    # AUDIO PROFILE: Jaz R.\n    ## \"The Morning Hype\"\n\n    ## THE SCENE: The London Studio\n    It is 10:00 PM in a glass-walled studio overlooking the moonlit London skyline,\n    but inside, it is blindingly bright. The red \"ON AIR\" tally light is blazing.\n    Jaz is standing up, not sitting, bouncing on the balls of their heels to the\n    rhythm of a thumping backing track. Their hands fly across the faders on a\n    massive mixing desk. It is a chaotic, caffeine-fueled cockpit designed to wake\n    up an entire nation.\n\n    ### DIRECTOR'S NOTES\n    Style:\n    * The \"Vocal Smile\": You must hear the grin in the audio. The soft palate is\n    always raised to keep the tone bright, sunny, and explicitly inviting.\n    * Dynamics: High projection without shouting. Punchy consonants and elongated\n    vowels on excitement words (e.g., \"Beauuutiful morning\").\n\n    Pace: Speaks at an energetic pace, keeping up with the fast music.  Speaks\n    with A \"bouncing\" cadence. High-speed delivery with fluid transitions - no dead\n    air, no gaps.\n\n    Accent: Jaz is from Brixton, London\n\n    ### SAMPLE CONTEXT\n    Jaz is the industry standard for Top 40 radio, high-octane event promos, or any\n    script that requires a charismatic Estuary accent and 11/10 infectious energy.\n\n    #### TRANSCRIPT\n    Yes, massive vibes in the studio! You are locked in and it is absolutely\n    popping off in London right now. If you're stuck on the tube, or just sat\n    there pretending to work... stop it. Seriously, I see you. Turn this up!\n    We've got the project roadmap landing in three, two... let's go!\n\n### Detailed Prompting Strategies\n\nBreak down each element of the prompt as follows:\n\n#### Audio Profile\n\nBriefly describe the persona of the character.\n\n- **Name.** Giving your character a name helps ground the model and tight performance together, Refer to the character by name when setting the scene and context\n- **Role.** Core identity and archetype of the character that's playing out in the scene. e.g., Radio DJ, Podcaster, News reporter etc.\n\nExamples:\n\n    # AUDIO PROFILE: Jaz R.\n    ## \"The Morning Hype\"\n\n<br />\n\n    # AUDIO PROFILE: Monica A.\n    ## \"The Beauty Influencer\"\n\n#### Scene\n\nSet the context for the scene, including location, mood, and environmental\ndetails that establish the tone and vibe. Describe what is happening around the\ncharacter and how it affects them. The scene provides the environmental context\nfor the entire interaction and guides the acting performance in a subtle\norganic way.\n\nExamples:\n\n    ## THE SCENE: The London Studio\n    It is 10:00 PM in a glass-walled studio overlooking the moonlit London skyline,\n    but inside, it is blindingly bright. The red \"ON AIR\" tally light is blazing.\n    Jaz is standing up, not sitting, bouncing on the balls of their heels to the\n    rhythm of a thumping backing track. Their hands fly across the faders on a\n    massive mixing desk. It is a chaotic, caffeine-fueled cockpit designed to\n    wake up an entire nation.\n\n<br />\n\n    ## THE SCENE: Homegrown Studio\n    A meticulously sound-treated bedroom in a suburban home. The space is\n    deadened by plush velvet curtains and a heavy rug, but there is a\n    distinct \"proximity effect.\"\n\n#### Directors notes\n\nThis critical section includes specific performance guidance. You can skip all\nthe other elements, but we recommend you include this element.\n\nDefine only what's important to the performance, being careful to not\noverspecify. Too many strict rules will limit the models' creativity and may\nresult in a worse performance. Balance the role and scene description with the\nspecific performance rules.\n\nThe most common directions are **Style, Pacing and Accent**, but the model is\nnot limited to these, nor requires them. Feel free to include custom\ninstructions to cover any additional details important to your performance, and\ngo into as much or as little detail as necessary.\n\nFor example:\n\n    ### DIRECTOR'S NOTES\n\n    Style: Enthusiastic and Sassy GenZ beauty YouTuber\n\n    Pacing: Speaks at an energetic pace, keeping up with the extremely fast, rapid\n    delivery influencers use in short form videos.\n\n    Accent: Southern california valley girl from Laguna Beach |\n\n**Style:**\n\nSets the tone and Style of the generated speech. Include things like upbeat,\nenergetic, relaxed, bored etc. to guide the performance. Be descriptive and\nprovide as much detail as necessary: *\"Infectious enthusiasm. The listener\nshould feel like they are part of a massive, exciting community event.\"* works\nbetter than saying *\"energetic and enthusiastic\".*\n\nYou can even try terms that are popular in the voiceover industry, like \"vocal\nsmile\". You can layer as many style characteristics as you want.\n\nExamples:\n\nSimple Emotion\n\n    DIRECTORS NOTES\n    ...\n    Style: Frustrated and angry developer who can't get the build to run.\n    ...\n\nMore depth\n\n    DIRECTORS NOTES\n    ...\n    Style: Sassy GenZ beauty YouTuber, who mostly creates content for YouTube Shorts.\n    ...\n\nComplex\n\n    DIRECTORS NOTES\n    Style:\n    * The \"Vocal Smile\": You must hear the grin in the audio. The soft palate is\n    always raised to keep the tone bright, sunny, and explicitly inviting.\n    *Dynamics: High projection without shouting. Punchy consonants and\n    elongated vowels on excitement words (e.g., \"Beauuutiful morning\").\n\n**Accent:**\n\nDescribe the selected accent. The more specific you are, the better the\nresults are. For example use \"*British English accent as heard in Croydon,\nEngland* \" versus \"*British Accent*\".\n\nExamples:\n\n    ### DIRECTORS NOTES\n    ...\n    Accent: Southern california valley girl from Laguna Beach\n    ...\n\n<br />\n\n    ### DIRECTORS NOTES\n    ...\n    Accent: Jaz is a from Brixton, London\n    ...\n\n**Pacing:**\n\nOverall pacing and pace variation throughout the piece.\n\nExamples:\n\nSimple\n\n    ### DIRECTORS NOTES\n    ...\n    Pacing: Speak as fast as possible\n    ...\n\nMore Depth\n\n    ### DIRECTORS NOTES\n    ...\n    Pacing: Speaks at a faster, energetic pace, keeping up with fast paced music.\n    ...\n\nComplex\n\n    ### DIRECTORS NOTES\n    ...\n    Pacing: The \"Drift\": The tempo is incredibly slow and liquid. Words bleed into each other. There is zero urgency.\n    ...\n\n**Give it a try**\n\nTry some of these examples yourself on\n[TTS App](http://aistudio.google.com/app/apps/bundled/synergy_intro) and let\nGemini put you in the directors chair. Keep these tips in mind to make great\nvocal performances:\n\n- Remember to keep the entire prompt coherent -- the script and direction go hand in hand in creating a great performance.\n- Don't feel you have to describe everything, sometimes giving the model space to fill in the gaps helps naturalness. (Just like a talented actor)\n- If you ever are feeling stuck, have Gemini lend you a hand to help you craft your script or performance.\n\n## Limitations\n\n- TTS models can only receive text inputs and generate audio outputs.\n- A TTS session has a [context window](https://ai.google.dev/gemini-api/docs/long-context) limit of 32k tokens.\n- Review [Languages](https://ai.google.dev/gemini-api/docs/interactions/speech-generation#languages) section for language support.\n- TTS does not support streaming.\n\nThe following constraints apply specifically when using the Gemini 3.1 Flash\nTTS Preview model for speech generation:\n\n- **Voice inconsistency with prompt instructions:** The model's output may not always strictly match the selected speaker, causing the audio to sound different than expected. To avoid mismatched tones (such as a deep male voice attempting to speak like a young girl), ensure your prompt's written tone and context align naturally with the selected speaker's profile.\n- **Quality of longer outputs:** Speech quality and consistency may begin to drift with generated outputs that are longer than a few minutes. We recommend splitting your transcripts into smaller chunks.\n- **Occasional text token returns:** The model occasionally returns text tokens instead of audio tokens, causing the server to fail the request with a `500` error. Because this occurs randomly in a very small percentage of requests, you should implement automated retry logic in your application to handle these.\n- **Prompt classifier false rejections:** Vague prompts may fail to trigger the speech synthesis classifier, resulting in a rejected request (`PROHIBITED_CONTENT`) or causing the model to read your style instructions and director's notes aloud. Validate your prompts by adding a clear preamble instructing the model to synthesize speech, and explicitly label where the actual spoken transcript begins.\n\n## What's next\n\n- Gemini's [Live API](https://ai.google.dev/gemini-api/docs/live) offers interactive audio generation options you can interleave with other modalities.\n- For working with audio *inputs* , visit the [Audio understanding](https://ai.google.dev/gemini-api/docs/interactions/audio) guide.",
+      "timestamp": "2026-05-19T06:28:14.923Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 7,
+      "type": "user",
+      "message": "# This will only work for SDK newer than 2.0.0\nfrom google import genai\n\nclient = genai.Client()\n\ntranscript_interaction = client.interactions.create(\n   model=\"gemini-3-flash-preview\",\n   input=\"\"\"Generate a short transcript around 100 words that reads\n            like it was clipped from a podcast by excited herpetologists.\n            The hosts names are Dr. Anya and Liam.\"\"\"\n)\ntranscript = transcript_interaction.steps[-1].content[0].text\n\ntts_interaction = client.interactions.create(\n   model=\"gemini-3.1-flash-tts-preview\",\n   input=transcript,\n   response_modalities=[\"audio\"],\n   generation_config={\n      \"speech_config\": [\n         {\"speaker\": \"Dr. Anya\", \"voice\": \"Kore\"},\n         {\"speaker\": \"Liam\", \"voice\": \"Puck\"}\n      ]\n   }\n)\n\n# ...Code to stream or save the output",
+      "timestamp": "2026-05-19T06:37:28.636Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 8,
+      "type": "user",
+      "message": "/rewind",
+      "timestamp": "2026-05-19T06:37:29.109Z"
+    },
+    {
+      "sessionId": "c3b31a44-072e-4379-a4f8-5af97cd1cd27",
+      "messageId": 9,
+      "type": "user",
+      "message": "npx skills add google-gemini/gemini-skills --skill gemini-api-dev",
+      "timestamp": "2026-05-19T06:37:34.013Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 0,
+      "type": "user",
+      "message": "Say in an spooky voice:\n\"By the pricking of my thumbs... [short pause]\n[whisper] Something wicked this way comes\"",
+      "timestamp": "2026-05-19T06:38:34.163Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 1,
+      "type": "user",
+      "message": "/extensions reload  tellme-gemini",
+      "timestamp": "2026-05-19T06:40:17.206Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 2,
+      "type": "user",
+      "message": "/mcp tss",
+      "timestamp": "2026-05-19T06:40:29.372Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 3,
+      "type": "user",
+      "message": "tss /say",
+      "timestamp": "2026-05-19T06:40:35.668Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 4,
+      "type": "user",
+      "message": "### DIRECTORS NOTES\n...\nPacing: Speaks at a faster, energetic pace, keeping up with fast paced music.\n...",
+      "timestamp": "2026-05-19T06:41:54.525Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 5,
+      "type": "user",
+      "message": "tss /say",
+      "timestamp": "2026-05-19T06:42:19.867Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 6,
+      "type": "user",
+      "message": "### DIRECTORS NOTES\n...\nPacing: The \"Drift\": The tempo is incredibly slow and liquid. Words bleed into each other. There is zero urgency.\n...\n\n### DIRECTORS NOTES\n...\nPacing: The \"Drift\": The tempo is incredibly slow and liquid. Words bleed into each other. There is zero urgency.\n...",
+      "timestamp": "2026-05-19T06:49:51.344Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 7,
+      "type": "user",
+      "message": "/history:export",
+      "timestamp": "2026-05-19T07:03:52.996Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 8,
+      "type": "user",
+      "message": "/hooks disable-all",
+      "timestamp": "2026-05-19T07:04:21.412Z"
+    },
+    {
+      "sessionId": "32c26acc-05df-4ca0-8dc8-c359c7f98e13",
+      "messageId": 9,
+      "type": "user",
+      "message": "/settings",
+      "timestamp": "2026-05-19T07:04:31.611Z"
+    },
+    {
+      "sessionId": "75ba40f3-9e38-4893-9e54-40ff327cd7fd",
+      "messageId": 0,
+      "type": "user",
+      "message": "@tests/test_self_healing_hook.py",
+      "timestamp": "2026-05-19T07:06:52.911Z"
+    },
+    {
+      "sessionId": "75ba40f3-9e38-4893-9e54-40ff327cd7fd",
+      "messageId": 1,
+      "type": "user",
+      "message": "/bkit:zero-script-qa",
+      "timestamp": "2026-05-19T07:12:16.395Z"
+    },
+    {
+      "sessionId": "75ba40f3-9e38-4893-9e54-40ff327cd7fd",
+      "messageId": 2,
+      "type": "user",
+      "message": "4 Recommended: /pdca analyze (to verify the new implementation against design)",
+      "timestamp": "2026-05-19T08:11:29.318Z"
+    },
+    {
+      "sessionId": "0dbc8ab7-23b1-47cc-9cac-dce086879444",
+      "messageId": 0,
+      "type": "user",
+      "message": "/pickle",
+      "timestamp": "2026-05-19T08:18:47.655Z"
+    },
+    {
+      "sessionId": "0dbc8ab7-23b1-47cc-9cac-dce086879444",
+      "messageId": 1,
+      "type": "user",
+      "message": "/bkit:skill-status",
+      "timestamp": "2026-05-19T08:21:31.549Z"
+    },
+    {
+      "sessionId": "0dbc8ab7-23b1-47cc-9cac-dce086879444",
+      "messageId": 2,
+      "type": "user",
+      "message": "PDCA Coverage\n   - Plan: 8 skills (starter, dynamic, enterprise, plan-plus, pm-discovery, phase-1-schema, bkend-quickstart, pdca)\n   - Design: 3 skills (phase-2-convention, phase-3-mockup, pdca)\n   - Do: 9 skills (phase-4-api, phase-5-design-system, phase-6-ui-integration, code-review, zero-script-qa,\n     bkend-auth, bkend-data, bkend-storage, pdca)\n   - Check: 5 skills (phase-7-seo-security, phase-8-review, audit, qa-phase, pdca)\n   - Act: 5 skills (phase-9-deployment, deploy, simplify, rollback, pdca)",
+      "timestamp": "2026-05-19T08:22:49.438Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 0,
+      "type": "user",
+      "message": "/bkit:skill-create",
+      "timestamp": "2026-05-19T09:40:28.487Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 1,
+      "type": "user",
+      "message": "/bkit:skill-create Mr. Meeseeks is a recurring fictional species in the American animated television series Rick and Morty. Created by Justin Roiland and Dan Harmon, Meeseeks are a powder-blue-skinned species of humanoids (each named \"Mr. Meeseeks\") who are created to serve a single purpose, which they will go to any length to fulfill. Each is brought to life by a \"Meeseeks Box,\" and they typically live for no more than a few hours in a constant state of pain, vanishing upon completing their assigned task to end their suffering. The longer an individual Meeseeks remains alive, the more insane and unhinged they become.\n\nEach Mr. Meeseeks is a tall, blue-skinned humanoid figure with elongated, narrow limbs, a large, bulbous head, beady black eyes, and a high-pitched voice. Some versions of him have one or more small patches of orange hair on their head, while others are bald. Mr. Meeseeks usually exhibits a friendly, cheerful, and helpful demeanor, willing to assist the one who brought him into existence, however possible, in order to ensure their own death. Ideally, Mr. Meeseeks will dispatch the simple task given to him and disappear shortly after its completion. However, if given a task that is outside of Mr. Meeseeks' capabilities, he will not be able to cease existing. This unusual lifespan will cause Mr. Meeseeks' attitude and mental state to worsen dramatically; the relatively long and tortuous existence quickly driving him to violent behavior and outright insanity, including creating more Meeseeks to assist themselves if they have access to a Meeseeks Box. All Mr. Meeseeks will typically say \"I'm Mr. Meeseeks, look at me!\" upon being created or making a point.\n\nThe character was created by Justin Roiland and Dan Harmon, who first met at Channel 101 in the early 2000s. In 2006, Roiland created The Real Animated Adventures of Doc and Mharti, an animated short parodying the Back to the Future characters Doc Brown and Marty McFly, and the precursor to Rick and Morty, the second episode of which features the pair encountering the title character Scud of Scud: The Disposable Assassin, whom Harmon had written for from 1994 to 1998, serving to promote the series' 2008 revival. At Stan Lee's L.A. Comic Con: Comikaze in 2016, Harmon confirmed that the Mr. Meeseeks character had been \"ripped off\" from Scud. After the idea for Rick and Morty, in the form of Doc and Mharti was brought up to Adult Swim and a full television series entered development, Roiland had the idea for the episode \"Meeseeks and Destroy\" when, frustrated with the progress of a writing session, he suggested the introduction of a character who would blurt \"I'm Mister Meeseeks, look at me!\" in a \"most annoying\" voice, which was then combined with Harmon's variation on Rob Schrab's Scud character, each member of the species uttering the catchphrase upon being created or making a point. Series writer Ryan Ridley also cited The Smurfs as an inspiration for the character.",
+      "timestamp": "2026-05-19T09:40:42.109Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 2,
+      "type": "user",
+      "message": "https://www.youtube.com/watch?v=l5wvqKcqL7c hocu da se ponasa i prati kao u seriji",
+      "timestamp": "2026-05-19T09:42:10.179Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 3,
+      "type": "user",
+      "message": "mr. meeseks ce da bude self healing",
+      "timestamp": "2026-05-19T09:43:34.704Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 4,
+      "type": "user",
+      "message": "4 Recommended: /mr-meeseeks \"Deploy a simple health-check API and ensure it's bug-free\"",
+      "timestamp": "2026-05-19T09:44:18.109Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 5,
+      "type": "user",
+      "message": "4 Recommended: /mr-meeseeks \"Add a database connectivity check to the health-check API\"",
+      "timestamp": "2026-05-19T09:45:14.663Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 6,
+      "type": "user",
+      "message": "4 Recommended: /mr-meeseeks \"Implement a basic audit log entry in the database when /health is called\"",
+      "timestamp": "2026-05-19T09:46:14.035Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 7,
+      "type": "user",
+      "message": "mr. meeseks kad zavrsi zadatak mora da uradi svaki put cleening i onda umire. Hocu da radi ovako i budde u zasebnom projektu i dokeru i db i sve  Architecture Design: Gemini Orchestrator Autonomous Coding Loop Extension\n\n## 1. Introduction\n\nThis document outlines the architectural design for extending the existing Gemini Orchestrator project with a Devin-style autonomous coding loop. The goal is to create a self-improving software engineering system that continuously plans, implements, tests, debugs, and refines code until a task is successfully completed. This extension will transform the Gemini Orchestrator from a metaprompting guidance system into an autonomous execution engine, while retaining its core philosophy of leveraging AI intelligence through structured prompts.\n\n## 2. Core Autonomous Coding Loop\n\nThe autonomous coding loop will follow a persistent, iterative cycle: **plan \u2192 implement \u2192 test \u2192 debug \u2192 review \u2192 commit \u2192 reflect \u2192 improve**. This loop will continue until the task objective is satisfied, all tests pass, or a maximum iteration limit is reached.\n\n### 2.1. Loop Flow\n\n```mermaid\ngraph TD\n    A[Start Task] --> B{Task Objective Defined}\n    B --> C[Plan Agent: Generate Plan]\n    C --> D[Implement Agent: Write/Modify Code]\n    D --> E[Test Agent: Execute Tests]\n    E -- Tests Pass --> F[Review Agent: Code Review]\n    E -- Tests Fail --> G[Debug Agent: Analyze Failures]\n    G --> D\n    F --> H[Commit Agent: Commit Changes]\n    H --> I[Reflect Agent: Analyze Iteration]\n    I -- Improvements Needed --> C\n    I -- Task Complete --> J[End Task]\n```\n\n## 3. Key Components and Agents\n\n### 3.1. Loop Controller\n\nThe **Loop Controller** is the central orchestrator of the autonomous coding loop. Its responsibilities include:\n\n-   **Iteration Management**: Stores the history of each iteration, including plans, actions, results, and reflections.\n-   **Termination Logic**: Decides when to stop the loop based on predefined criteria (e.g., tests pass, task objective met, max iterations).\n-   **Task Graph Modification**: Dynamically updates and modifies the task graph based on the outcomes of each iteration.\n-   **Dynamic Task Triggering**: Triggers the appropriate agent (e.g., Implement, Test, Debug) based on the current state and results.\n-   **State Persistence**: Ensures memory persistence, artifact history, and execution logs are maintained across sessions.\n\n### 3.2. Reflection Agent\n\nThe **Reflection Agent** is a new agent type responsible for meta-analysis of the coding loop's performance. Its key functions are:\n\n-   **Failure Analysis**: Analyzes test failures, debugging logs, and code review feedback to identify root causes.\n-   **Iteration Summarization**: Summarizes the outcomes and key learnings from the previous iteration.\n-   **Improvement Proposal**: Proposes concrete improvements to the next plan, including modifications to strategy, tools, or code sections.\n\n### 3.3. Other Agents (Existing/Modified)\n\n-   **Plan Agent**: Utilizes `gemini_plan_analysis` to break down tasks.\n-   **Implement Agent**: Responsible for writing and modifying code based on the plan.\n-   **Test Agent**: Executes tests and reports results.\n-   **Debug Agent**: Triggered by test failures, analyzes issues, and suggests fixes.\n-   **Review Agent**: Performs static analysis and code quality checks.\n-   **Commit Agent**: Manages Git operations.\n\n## 4. Long-Running Agent Environment\n\nTo support long sessions and continuous improvement, the system will include:\n\n-   **Memory Persistence**: Utilizing local-first vector databases like **FAISS** or **Chroma** for storing contextual information, past experiences, and learned patterns.\n-   **Artifact History**: All code changes, test results, and generated artifacts will be version-controlled using Git.\n-   **Execution Logs**: Detailed logs of agent actions, decisions, and system state will be maintained for auditability and reflection.\n\n## 5. Git Automation\n\nAutomatic Git workflow integration is crucial for managing code changes:\n\n-   **Branch Creation**: Automatically create a new branch for each task or significant iteration.\n-   **Commit Changes**: Commit code changes with descriptive messages.\n-   **Run Tests**: Integrate with the Test Agent to run tests before committing or pushing.\n-   **PR-Ready History**: Maintain a clean, squashed, and rebased commit history suitable for pull requests.\n\n## 6. Self-Healing Pipeline\n\nWhen tests fail, the system will automatically trigger a self-healing mechanism:\n\n-   **Debug Agent Trigger**: The Loop Controller will activate the Debug Agent.\n-   **Code Remediation**: The Debug Agent will analyze failures and guide the Implement Agent to apply fixes.\n-   **Rerun Tests**: After remediation, tests will be automatically rerun to validate the fix.\n\n## 7. Local-First Operation\n\nThe architecture prioritizes free and open-source components for local-first operation:\n\n-   **LLM**: **Ollama** or **llama.cpp** for local large language model inference.\n-   **Vector Memory**: **FAISS** or **Chroma** for efficient vector storage and retrieval.\n-   **Execution Sandbox**: **Docker** containers will provide isolated and reproducible execution environments for agents.\n\n## 8. Integration with CLI\n\nNew command-line interface (CLI) commands will be introduced:\n\n-   `gemini agent auto [task_description]`: Initiates an autonomous coding session.\n-   `gemini agent loop [session_id]`: Resumes or monitors an ongoing autonomous loop.\n-   `gemini agent reflect [session_id]`: Triggers a manual reflection process for a given session.\n\n## 9. Visualization Support for Antigravity IDE\n\nInstructions will be provided to visualize:\n\n-   **Agent Iterations**: A timeline or graph showing the sequence of agent actions and state changes.\n-   **Task Graph**: A dynamic representation of the task breakdown and dependencies.\n-   **Artifacts**: Easy access and visualization of generated code, test reports, and other outputs.\n\n## 10. Updated Repository Structure\n\n```\ngemini-cli-orchestrator/\n\u251c\u2500\u2500 .github/\n\u251c\u2500\u2500 config/\n\u251c\u2500\u2500 docs/\n\u2502   \u251c\u2500\u2500 HOW_IT_WORKS.md\n\u2502   \u2514\u2500\u2500 architecture_design.md  # New: This document\n\u251c\u2500\u2500 internal/\n\u251c\u2500\u2500 src/\n\u2502   \u251c\u2500\u2500 cli/                  # Existing CLI commands\n\u2502   \u2502   \u2514\u2500\u2500 gemini.js\n\u2502   \u251c\u2500\u2500 core/                 # Core MCP server logic\n\u2502   \u2502   \u2514\u2500\u2500 server.js\n\u2502   \u251c\u2500\u2500 agents/               # New: Directory for autonomous agents\n\u2502   \u2502   \u251c\u2500\u2500 __init__.py\n\u2502   \u2502   \u251c\u2500\u2500 plan_agent.py\n\u2502   \u2502   \u251c\u2500\u2500 implement_agent.py\n\u2502   \u2502   \u251c\u2500\u2500 test_agent.py\n\u2502   \u2502   \u251c\u2500\u2500 debug_agent.py\n\u2502   \u2502   \u251c\u2500\u2500 review_agent.py\n\u2502   \u2502   \u251c\u2500\u2500 commit_agent.py\n\u2502   \u2502   \u2514\u2500\u2500 reflect_agent.py  # New: Reflection Agent\n\u2502   \u251c\u2500\u2500 controller/           # New: Loop Controller\n\u2502   \u2502   \u2514\u2500\u2500 loop_controller.py\n\u2502   \u251c\u2500\u2500 persistence/          # New: Memory persistence (FAISS/Chroma integration)\n\u2502   \u2502   \u2514\u2500\u2500 vector_store.py\n\u2502   \u251c\u2500\u2500 sandbox/              # New: Docker sandbox management\n\u2502   \u2502   \u2514\u2500\u2500 docker_manager.py\n\u2502   \u2514\u2500\u2500 utils/                # Utility functions\n\u2502       \u2514\u2500\u2500 git_automation.py # New: Git automation utilities\n\u251c\u2500\u2500 tests/\n\u251c\u2500\u2500 .env.example\n\u251c\u2500\u2500 .gitignore\n\u251c\u2500\u2500 CLAUDE.md\n\u251c\u2500\u2500 CODE_OF_CONDUCT.md\n\u251c\u2500\u2500 LICENSE\n\u251c\u2500\u2500 README.md\n\u251c\u2500\u2500 SECURITY.md\n\u251c\u2500\u2500 gemini-collaboration-guide.mjs\n\u251c\u2500\u2500 package-lock.json\n\u2514\u2500\u2500 package.json\n```\n```\n\n## References\n\n[1] dnnyngyen/gemini-cli-orchestrator. GitHub. [https://github.com/dnnyngyen/gemini-cli-orchestrator](https://github.com/dnnyngyen/gemini-cli-orchestrator)\n[2] Devin | The AI Software Engineer. [https://devin.ai/](https://devin.ai/)\n[3] Agent-Native Development: A Deep Dive into Devin 2.0's Technical Design. Medium. [https://medium.com/@takafumi.endo/agent-native-development-a-deep-dive-into-devin-2-0s-technical-design-3451587d23c0](https://medium.com/@takafumi.endo/agent-native-development-a-deep-dive-into-devin-2-0s-technical-design-3451587d23c0)\n[4] Self-Improving Coding Agents. AddyOsmani.com. [https://addyosmani.com/blog/self-improving-agents/](https://addyosmani.com/blog/self-improving-agents/)\n[5] How to Architect Self-Healing CI/CD for Agentic AI. Optimum Partners. [https://optimumpartners.com/insight/how-to-architect-self-healing-ci/cd-for-agentic-ai/](https://optimumpartners.com/insight/how-to-architect-self-healing-ci/cd-for-agentic-ai/)",
+      "timestamp": "2026-05-19T09:51:42.830Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 8,
+      "type": "user",
+      "message": "a surprisingly rich metaphor for software engineering concepts. Let me break this down systematically:\n\n## 1. **Single Purpose / Single Responsibility Principle**\n\n**Meeseeks Trait**: Each Meeseeks is created to fulfill a single, specific task. They exist solely for this purpose and vanish upon completion.\n\n**Software Engineering Parallel**:\n- **Single Responsibility Principle (SRP)**: A core principle of object-oriented design that states that a class or module should have one reason to change, i.e., it should have a single responsibility.\n- **Microservices**: Similar to how each Meeseeks handles one task, microservices are designed to do one thing well, with clear boundaries and interfaces.\n- **Function/Method Design**: Well-designed functions should have a single, clear purpose, just like a Meeseeks.\n\n**Insight**: Meeseeks embody the ideal of SRP taken to an extreme. They cannot persist beyond their task, which forces perfect adherence to this principle. In software, we often struggle with SRP violations (e.g., \"god classes\"), but Meeseeks never face this problem\u2014they literally cannot exist if they try to take on multiple responsibilities.\n\n## 2. **Existential Pain / Technical Debt**\n\n**Meeseeks Trait**: Meeseeks experience constant pain while they exist. The longer they live, the more their mental state deteriorates.\n\n**Software Engineering Parallel**:\n- **Technical Debt**: Code that is hard to maintain, refactor, or extend creates a \"pain\" for developers. The longer it exists, the worse it gets\u2014just like a Meeseeks living too long.\n- **Unfinished Tasks**: An incomplete task that lingers in a backlog or TODO list creates mental overhead and slows down development velocity.\n- **Long-Lived Branches**: Branches that exist for too long become increasingly difficult to merge, similar to how a Meeseeks becomes more deranged over time.\n\n**Insight**: The Meeseeks' existential pain is a perfect metaphor for technical debt. Just as Meeseeks must complete their task to end their suffering, developers must address technical debt to maintain a healthy codebase. The \"kill me\" desperation of a long-lived Meeseeks mirrors the frustration developers feel when wrestling with legacy code.\n\n## 3. **Task Completion = Vanishing / Closure**\n\n**Meeseeks Trait**: Upon completing their task, Meeseeks vanish, ending their suffering.\n\n**Software Engineering Parallel**:\n- **Task Completion**: The satisfaction of marking a task as done, closing a ticket, or merging a PR.\n- **Resource Cleanup**: Properly releasing resources (memory, file handles, network connections) when they're no longer needed.\n- **Garbage Collection**: In managed languages, objects that are no longer referenced are automatically cleaned up, similar to how Meeseeks disappear when no longer needed.\n\n**Insight**: The vanishing act represents the ideal of clean completion and resource management. In software, we aim for tasks to have clear completion criteria and for resources to be properly released when their purpose is fulfilled.\n\n## 4. **Invulnerability / Fault Tolerance**\n\n**Meeseeks Trait**: Meeseeks cannot be killed by physical harm; they can only cease existing when their mission is accomplished.\n\n**Software Engineering Parallel**:\n- **Fault Tolerance**: Systems designed to continue operating even when components fail.\n- **Idempotency**: Operations that can be retried without changing the result, similar to how Meeseeks keep going despite damage.\n- **Resilience**: The ability to recover from errors and continue functioning.\n\n**Insight**: Meeseeks' invulnerability is like a highly resilient system that keeps working despite setbacks. However, unlike Meeseeks (which can't die until their task is done), good software should have proper failure modes and not just keep going indefinitely when it should stop.\n\n## 5. **Creating More Meeseeks / Delegation**\n\n**Meeseeks Trait**: When faced with a difficult task, Meeseeks create more Meeseeks to help.\n\n**Software Engineering Parallel**:\n- **Delegation**: Assigning sub-tasks to other objects or functions.\n- **Concurrency/Parallelism**: Spawning new threads or processes to handle work.\n- **Divide and Conquer**: Breaking a large problem into smaller, manageable pieces.\n- **Recursion**: A function calling itself to solve smaller instances of the same problem.\n\n**Insight**: This is a great analogy for decomposition and delegation. However, just as Meeseeks creating more Meeseeks can lead to chaos if the task is too hard, poor delegation in software can lead to race conditions, deadlocks, or unmanageable complexity.\n\n## 6. **Sanity Deterioration / Complexity Spiral**\n\n**Meeseeks Trait**: The longer a Meeseeks lives, the more insane it becomes, eventually resorting to violence and creating more Meeseeks.\n\n**Software Engineering Parallel**:\n- **Complexity Spiral**: A small, simple problem left unaddressed can grow into a complex, unmanageable one.\n- **Cascading Failures**: One small issue can trigger a chain reaction of failures.\n- **Bug Multiplication**: Fixing one bug can sometimes create several more if not done carefully.\n\n**Insight**: This mirrors how technical debt or unresolved issues can spiral out of control. A small hack that doesn't get cleaned up can lead to more hacks, eventually resulting in a codebase that's impossible to maintain.\n\n## 7. **Catchphrase \"Look at me!\" / Observability**\n\n**Meeseeks Trait**: Upon creation, Meeseeks announce their presence with \"I'm Mr. Meeseeks, look at me!\"\n\n**Software Engineering Parallel**:\n- **Observability**: The ability to understand what a system is doing through metrics, logs, and traces.\n- **Health Checks**: Endpoints or mechanisms that announce a service's status.\n- **Debugging**: The process of understanding what a program is doing.\n\n**Insight**: Meeseeks' announcement is like a health check endpoint. It's a declaration of existence and readiness to work. In complex systems, observability is crucial\u2014we need to know what each component is doing, just like we need to know a Meeseeks is present and ready to work.\n\n## 8. **Meeseeks Box / Factory Pattern**\n\n**Meeseeks Trait**: Meeseeks are created from a Meeseeks Box, which instantiates them on demand.\n\n**Software Engineering Parallel**:\n- **Factory Pattern**: A creational design pattern that provides an interface for creating objects without specifying their concrete classes.\n- **Object Pool**: Reusing objects instead of creating new ones.\n- **Dependency Injection**: Providing objects with their dependencies rather than having them create their own.\n\n**Insight**: The Meeseeks Box is essentially a factory that creates Meeseeks instances. This is a clean way to manage object creation, ensuring that Meeseeks are created consistently and can be managed as a pool if needed.\n\n## 9. **Existential Crisis / Undefined Requirements**\n\n**Meeseeks Trait**: When given a task outside their capabilities, Meeseeks cannot complete it and descend into madness.\n\n**Software Engineering Parallel**:\n- **Undefined Requirements**: When a task is poorly defined or impossible to achieve, developers can spin their wheels indefinitely.\n- **Scope Creep**: Adding more requirements to an already difficult task can make it impossible to complete.\n- **Analysis Paralysis**: Overthinking a problem without making progress.\n\n**Insight**: This is a perfect metaphor for what happens when software engineers are given impossible or poorly defined tasks. Without clear completion criteria, they can't \"complete their task\" and end their suffering, leading to frustration and burnout.\n\n## 10. **Collaborative Chaos / Coordination Problems**\n\n**Meeseeks Trait**: Multiple Meeseeks trying to solve the same problem often end up fighting and creating more chaos.\n\n**Software Engineering Parallel**:\n- **Coordination Problems**: Multiple developers or systems working on the same problem without proper coordination can create conflicts.\n- **Merge Conflicts**: Multiple people editing the same code can lead to conflicts that are hard to resolve.\n- **Race Conditions**: Concurrent operations interfering with each other.\n\n**Insight**: This mirrors the challenges of collaboration without proper coordination. Just as Meeseeks need a clear plan and division of labor, software teams need good communication and processes to avoid stepping on each other's toes.\n\n## Conclusion\n\nMr. Meeseeks are a surprisingly rich metaphor for software engineering concepts. They embody:\n- The importance of clear, single responsibilities\n- The pain of technical debt and unfinished work\n- The need for proper closure and resource cleanup\n- The challenges of coordination and delegation\n- The dangers of complexity spiraling out of control\n\nThe character is essentially a humorous warning about what happens when tasks are poorly defined, take too long, or lack proper boundaries\u2014something every software engineer can relate to!\n\nWould you like me to explore any of these parallels in more depth, or is there another aspect of this metaphor you'd like to investigate?",
+      "timestamp": "2026-05-19T10:47:12.912Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 9,
+      "type": "user",
+      "message": "/auth signout",
+      "timestamp": "2026-05-19T11:23:23.910Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 10,
+      "type": "user",
+      "message": "/clear",
+      "timestamp": "2026-05-19T11:25:33.929Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 11,
+      "type": "user",
+      "message": "/hooks enable \"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd\" session-start",
+      "timestamp": "2026-05-19T11:25:51.363Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 12,
+      "type": "user",
+      "message": "/hooks enable tell-me",
+      "timestamp": "2026-05-19T11:26:18.599Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 13,
+      "type": "user",
+      "message": "/hooks enable bkit-intent-detection",
+      "timestamp": "2026-05-19T11:26:33.062Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 14,
+      "type": "user",
+      "message": "mcp tell-me",
+      "timestamp": "2026-05-19T11:26:49.046Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 15,
+      "type": "user",
+      "message": "a",
+      "timestamp": "2026-05-19T11:31:10.988Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 16,
+      "type": "user",
+      "message": "yes",
+      "timestamp": "2026-05-19T11:32:04.604Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 17,
+      "type": "user",
+      "message": "Odlicno. Sad cleaning i comit na git",
+      "timestamp": "2026-05-19T12:04:56.872Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 18,
+      "type": "user",
+      "message": "/bkend-auth",
+      "timestamp": "2026-05-19T12:09:14.726Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 19,
+      "type": "user",
+      "message": "/bkit:rollback",
+      "timestamp": "2026-05-19T12:11:28.822Z"
+    },
+    {
+      "sessionId": "61a0ab50-4a85-47d8-90c7-5775b276f03c",
+      "messageId": 20,
+      "type": "user",
+      "message": "/bkit:rollback hocu da zadnjih 10 dana povuces i parsiras u json, zatim sa /nl-notebooklm pushujes na notebooklm",
+      "timestamp": "2026-05-19T12:12:09.517Z"
+    }
+  ]
+}

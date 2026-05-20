@@ -1,0 +1,18 @@
+{
+  "id": "kiza123123/pit-stop-god-mode-v2",
+  "title": "Pit Stop God-Mode V2",
+  "code_file": "master_model.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "false",
+  "enable_tpu": "false",
+  "enable_internet": "true",
+  "dataset_sources": [
+    "tienthinh/f1-strategy-dataset-v4"
+  ],
+  "competition_sources": [
+    "playground-series-s6e5"
+  ],
+  "kernel_sources": []
+}
