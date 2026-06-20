@@ -1,0 +1,103 @@
+version: 2.1
+
+# ── Executors ────────────────────────────────────────────────────────────────
+
+executors:
+  python:
+    docker:
+      - image: cimg/python:3.13
+    resource_class: medium
+    working_directory: ~/project
+
+  # Sidecar MongoDB for integration tests
+  python-mongo:
+    docker:
+      - image: cimg/python:3.13
+      - image: cimg/mongo:7.0
+    resource_class: medium
+    working_directory: ~/project
+
+# ── Reusable commands ────────────────────────────────────────────────────────
+
+commands:
+  setup-deps:
+    description: Install uv, restore cache, sync dependencies, save cache
+    steps:
+      - run:
+          name: Install uv
+          command: pip install --quiet uv
+      - restore_cache:
+          keys:
+            - v1-uv-py313-{{ checksum "uv.lock" }}
+            - v1-uv-py313-
+      - run:
+          name: Sync project dependencies
+          command: uv sync --frozen
+      - run:
+          name: Install test tools
+          # pytest/httpx are not in pyproject.toml; install them alongside uv-managed venv
+          command: uv pip install pytest pytest-asyncio httpx
+      - save_cache:
+          key: v1-uv-py313-{{ checksum "uv.lock" }}
+          paths:
+            - ~/.cache/uv
+
+# ── Jobs ─────────────────────────────────────────────────────────────────────
+
+jobs:
+  # Run the full test suite, split across 2 parallel containers.
+  # TimingsBased splitting requires previous test-results to be stored;
+  # falls back to file-based splitting on first run.
+  test:
+    executor: python-mongo
+    parallelism: 2
+    environment:
+      MONGODB_URI: mongodb://localhost:27017/test_db
+      PYTHONPATH: /home/circleci/project
+    steps:
+      - checkout
+      - setup-deps
+      - run:
+          name: Run tests
+          command: |
+            TESTS=$(circleci tests glob "tests/test_*.py" \
+              | circleci tests split --split-by=timings --timings-type=filename)
+            uv run python -m pytest $TESTS \
+              --junitxml=test-results/junit.xml \
+              -v --tb=short
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: test-results
+
+  # Build the Docker image using layer caching to avoid rebuilding unchanged layers.
+  # Only runs on main after tests pass to avoid burning credits on every branch.
+  build-docker:
+    docker:
+      - image: cimg/base:stable
+    resource_class: medium
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build Docker image
+          command: |
+            docker build \
+              -t ai-workflow-orchestrator:${CIRCLE_SHA1} \
+              -t ai-workflow-orchestrator:latest \
+              .
+
+# ── Workflows ────────────────────────────────────────────────────────────────
+
+workflows:
+  ci:
+    jobs:
+      - test
+      - build-docker:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
