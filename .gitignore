@@ -1,0 +1,1 @@
+Nothing needs to be added to .gitignore since only a Python source file (`grounding_mechanism.py`) was added, which is regular source code that should be tracked in version control.
