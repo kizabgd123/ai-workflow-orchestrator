@@ -26,7 +26,7 @@ Execute the following terminal commands to fetch the repository and resolve pack
 
 1. **Clone the code repository:**
    ```bash
-   git clone https://github.com/kiza101288/ai-workflow-orchestrator.git
+   git clone https://github.com/kizabgd123/ai-workflow-orchestrator.git
    cd ai-workflow-orchestrator
    ```
 

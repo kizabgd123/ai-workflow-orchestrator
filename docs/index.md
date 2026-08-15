@@ -17,7 +17,7 @@ hero:
       link: "/architecture"
     - theme: alt
       text: "GitHub Izvor"
-      link: "https://github.com/kiza101288/ai-workflow-orchestrator"
+      link: "https://github.com/kizabgd123/ai-workflow-orchestrator"
 features:
   - icon: "🤝"
     title: "Multi-Agent Debate Engine"

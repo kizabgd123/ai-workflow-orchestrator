@@ -26,7 +26,7 @@ Pratite sledeće korake za preuzimanje repozitorijuma i instalaciju paketa:
 
 1. **Klonirajte repozitorijum:**
    ```bash
-   git clone https://github.com/kiza101288/ai-workflow-orchestrator.git
+   git clone https://github.com/kizabgd123/ai-workflow-orchestrator.git
    cd ai-workflow-orchestrator
    ```
 
