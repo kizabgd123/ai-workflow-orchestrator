@@ -34,6 +34,13 @@ jobs:
         working-directory: docs-site
         run: npm ci
 
+      - name: Stage documentation source
+        working-directory: docs-site
+        run: |
+          rm -rf docs
+          cp -R ../docs ./docs
+          sed -i "s|srcDir: '../docs'|srcDir: './docs'|" .vitepress/config.mts
+
       - name: Build documentation site
         working-directory: docs-site
         run: npm run build
